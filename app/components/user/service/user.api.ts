@@ -3,23 +3,14 @@
 import { PrismaClient } from "@prisma/client";
 import { IUser } from "../model/user";
 import { cookies } from "next/headers";
+import instance from "@/app/config/axios-config";
 
 const prisma = new PrismaClient();
 const setCookie = cookies();
 
-export const joinApi = async (user: IUser) => {
-  const { username, password, firstName, lastName, email } = user;
+export const joinApi = async (user: any) => {
   try {
-    const response = await prisma.users.create({
-      data: {
-        username: username,
-        password: password,
-        firstName: firstName,
-        lastName: lastName,
-        email: email,
-        accessToken: "",
-      },
-    });
+    const response = await instance().post("/admin/save", user);
     return response;
   } catch (error) {
     return error;

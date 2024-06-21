@@ -2,28 +2,11 @@
 
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import ChevronRightOutlinedIcon from "@mui/icons-material/ChevronRightOutlined";
 import "animate.css";
-import Image from "next/image";
-import { useDispatch } from "react-redux";
-import { joinId } from "./components/user/service/user.service";
 
-export default function Home(props: any) {
+export default function BeforeLoginedPage(props: any) {
   const router = useRouter();
-  const dispatch = useDispatch();
   const [isOpenLawLaw, setIsOpenLawLaw] = useState(false);
-
-  useEffect(() => {
-    dispatch(
-      joinId({
-        username: "test",
-        password: "1234",
-        role: "tester",
-      })
-    ).then((res: any) => {
-      console.log("res", res);
-    });
-  }, []);
 
   useEffect(() => {
     if (isOpenLawLaw) {

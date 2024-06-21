@@ -9,7 +9,7 @@ const Layout = ({
   children: React.ReactNode;
 }>) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState({
-    menu: true,
+    menu: false,
     cash: false,
     message: false,
     notification: false,
