@@ -2,9 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import ChevronRightOutlinedIcon from "@mui/icons-material/ChevronRightOutlined";
 import "animate.css";
-import Image from "next/image";
 import { useDispatch } from "react-redux";
 import { joinId } from "./components/user/service/user.service";
 
@@ -43,7 +41,7 @@ export default function Home(props: any) {
           <div className=" justify-start flex flex-col gap-[0.5vh]">
             <div className="bg-[var(--color-Harbor-firth)] w-[41.53vw] hover:bg-gradient-to-r from-[var(--color-Harbor-first)] to-[var(--color-Harbor-firth)] transition duration-500 ease-in-out px-[2vw]">
               <button
-                onClick={() => router.push(`/pages/users/join`)}
+                onClick={() => router.push(`/join`)}
                 className="text-[var(--color-Harbor-second)] hover:text-[var(--color-Harbor-firth)] transition duration-500 ease-in-out"
               >
                 회원가입 -&gt;
@@ -51,7 +49,7 @@ export default function Home(props: any) {
             </div>
             <div className="bg-[var(--color-Harbor-firth)] w-[41.53vw] hover:bg-gradient-to-r from-[var(--color-Harbor-first)] to-[var(--color-Harbor-firth)] transition duration-500 ease-in-out px-[2vw]">
               <button
-                onClick={() => router.push(`/pages/users/login`)}
+                onClick={() => router.push(`/login`)}
                 className="text-[var(--color-Harbor-second)] hover:text-[var(--color-Harbor-firth)] transition duration-500 ease-in-out"
               >
                 로그인 -&gt;

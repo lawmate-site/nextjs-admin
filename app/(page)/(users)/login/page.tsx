@@ -95,19 +95,19 @@ const Login = () => {
           </div>
           <div className="w-[24vw] flex flex-col justify-between items-center p-[1.111vh]">
             <p
-              onClick={() => router.push(`/pages/users/find-username`)}
+              onClick={() => router.push(`/find-username`)}
               className="text-gray-700 text-sm"
             >
               Forgot your username?
             </p>
             <p
-              onClick={() => router.push(`/pages/users/find-password`)}
+              onClick={() => router.push(`/find-password`)}
               className="text-gray-700 text-sm"
             >
               Forgot your password?
             </p>
             <p
-              onClick={() => router.push(`/pages/users/join`)}
+              onClick={() => router.push(`/join`)}
               className="text-gray-700 text-sm"
             >
               Aren&apos;t you a member yet? Join now!
