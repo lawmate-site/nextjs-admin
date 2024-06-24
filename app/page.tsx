@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import "animate.css";
 import { useDispatch } from "react-redux";
-import { joinId } from "./components/user/service/user.service";
+import { joinId } from "./_components/user/service/user.service";
 
 export default function Home(props: any) {
   const router = useRouter();
