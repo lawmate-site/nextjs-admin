@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import Header from "./modules/header";
+import Header from "../modules/header";
 
 const Layout = ({
   children,
@@ -10,7 +10,6 @@ const Layout = ({
 }>) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState({
     menu: false,
-    cash: false,
     message: false,
     notification: false,
     account: false,

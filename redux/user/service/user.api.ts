@@ -3,7 +3,7 @@
 import { PrismaClient } from "@prisma/client";
 import { IUser } from "../model/user";
 import { cookies } from "next/headers";
-import instance from "@/app/_config/axios-config";
+import instance from "@/components/config/axios-config";
 
 const prisma = new PrismaClient();
 const setCookie = cookies();

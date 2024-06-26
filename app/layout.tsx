@@ -1,8 +1,8 @@
 import { Inter } from "next/font/google";
-import "./globals.css";
+import "@/styles/globals.css";
 import dynamic from "next/dynamic";
 import { Metadata } from "next";
-import Layout from "./_components/Layout";
+import Layout from "@/components/layout/Layout";
 
 const ReduxProvider = dynamic(() => import("@/redux/redux-provider"), {
   ssr: false,

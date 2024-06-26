@@ -1,15 +1,12 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import TextsmsOutlinedIcon from "@mui/icons-material/TextsmsOutlined";
-import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined";
-import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import { iconsCSS, rounded } from "../common/icons";
 import { useDispatch } from "react-redux";
 import { useRouter } from "next/navigation";
-import { logout } from "../user/service/user.service";
 import { getAccessToken } from "./cookies";
 import Image from "next/image";
+import { logout } from "@/redux/user/service/user.service";
 
 const Header = ({ isDropdownOpen, setIsDropdownOpen }: any) => {
   const dispatch = useDispatch();
