@@ -3,8 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
-import { joinId } from "@/redux/user/service/user.service";
-import { IUser } from "@/redux/user/model/user";
+import { IUser } from "@/components/_model/user/user";
 
 function Join() {
   const router = useRouter();
@@ -13,17 +12,17 @@ function Join() {
 
   const handleJoin = async () => {
     try {
-      await dispatch(joinId(formData))
-        .then((res: any) => {
-          alert("success to join us");
-          console.log(res.payload.userId);
-        })
-        .then(() => {
-          router.push("/login");
-        })
-        .catch((error: any) => {
-          console.log(error);
-        });
+      // await dispatch(joinId(formData))
+      //   .then((res: any) => {
+      //     alert("success to join us");
+      //     console.log(res.payload.userId);
+      //   })
+      //   .then(() => {
+      //     router.push("/login");
+      //   })
+      //   .catch((error: any) => {
+      //     console.log(error);
+      //   });
     } catch (error) {
       console.log(error);
     }
@@ -35,47 +34,19 @@ function Join() {
         <p>회원가입</p>
         <div>
           <p>이름</p>
-          <input
-            type="text"
-            name="name"
-            value={formData.firstName}
-            onChange={(e: any) =>
-              setFormData({ ...formData, firstName: e.target.value })
-            }
-          />
+          <input type="text" name="name" />
         </div>
         <div>
           <p>성</p>
-          <input
-            type="text"
-            name="name"
-            value={formData.lastName}
-            onChange={(e: any) =>
-              setFormData({ ...formData, lastName: e.target.value })
-            }
-          />
+          <input type="text" name="name" />
         </div>
         <div>
           <p>아이디</p>
-          <input
-            type="text"
-            name="username"
-            value={formData.username}
-            onChange={(e: any) =>
-              setFormData({ ...formData, username: e.target.value })
-            }
-          />
+          <input type="text" name="username" />
         </div>
         <div>
           <p>비밀번호</p>
-          <input
-            type="password"
-            name="password"
-            value={formData.password}
-            onChange={(e: any) =>
-              setFormData({ ...formData, password: e.target.value })
-            }
-          />
+          <input type="password" name="password" />
         </div>
         <div>
           <p>비밀번호 확인</p>

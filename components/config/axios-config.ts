@@ -1,8 +1,39 @@
 import axios, { AxiosInstance } from "axios";
 import { parseCookies } from "nookies";
+import {
+  adminURL,
+  chatURL,
+  lawyerURL,
+  manageURL,
+  userURL,
+} from "../common/url";
 
-const instance = () => {
-  const instance = axios.create({ baseURL: mainURL });
+export const userInstance = () => {
+  const instance = axios.create({ baseURL: userURL });
+  setInterceptor(instance);
+  return instance;
+};
+
+export const lawyerInstance = () => {
+  const instance = axios.create({ baseURL: lawyerURL });
+  setInterceptor(instance);
+  return instance;
+};
+
+export const adminInstance = () => {
+  const instance = axios.create({ baseURL: adminURL });
+  setInterceptor(instance);
+  return instance;
+};
+
+export const chatInstance = () => {
+  const instance = axios.create({ baseURL: chatURL });
+  setInterceptor(instance);
+  return instance;
+};
+
+export const manageInstance = () => {
+  const instance = axios.create({ baseURL: manageURL });
   setInterceptor(instance);
   return instance;
 };
@@ -27,5 +58,3 @@ export const setInterceptor = (inputInstance: AxiosInstance) => {
   });
   return inputInstance;
 };
-
-export default instance;

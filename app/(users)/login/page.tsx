@@ -1,6 +1,5 @@
 "use client";
 
-import { loginId } from "@/redux/user/service/user.service";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
@@ -15,17 +14,17 @@ const Login = () => {
 
   const handleLogin = async () => {
     try {
-      await dispatch(loginId(formData))
-        .then((res: any) => {
-          alert("success to login");
-          console.log(res.payload.userId);
-        })
-        .then(() => {
-          router.push("/");
-        })
-        .catch((error: any) => {
-          console.log(error);
-        });
+      // await dispatch(loginId(formData))
+      //   .then((res: any) => {
+      //     alert("success to login");
+      //     console.log(res.payload.userId);
+      //   })
+      //   .then(() => {
+      //     router.push("/");
+      //   })
+      //   .catch((error: any) => {
+      //     console.log(error);
+      //   });
     } catch (error) {
       console.log(error);
     }

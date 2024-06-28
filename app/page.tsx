@@ -4,24 +4,11 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import "animate.css";
 import { useDispatch } from "react-redux";
-import { joinId } from "@/redux/user/service/user.service";
 
 export default function Home(props: any) {
   const router = useRouter();
   const dispatch = useDispatch();
   const [isOpenLawLaw, setIsOpenLawLaw] = useState(false);
-
-  useEffect(() => {
-    dispatch(
-      joinId({
-        username: "test",
-        password: "1234",
-        role: "tester",
-      })
-    ).then((res: any) => {
-      console.log("res", res);
-    });
-  }, []);
 
   useEffect(() => {
     if (isOpenLawLaw) {
