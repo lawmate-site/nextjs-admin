@@ -1,10 +1,14 @@
 "use client";
 
+import { findAll } from "@/components/_service/admin/admin.service";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
 
 const NotificationBoardPage = () => {
   const router = useRouter();
+  const dispatch = useDispatch();
   const notification = [
     {
       id: 1,
@@ -32,6 +36,21 @@ const NotificationBoardPage = () => {
       viewCount: 10,
     },
   ];
+
+  const getNotification = async () => {
+    try {
+      const response = await dispatch(findAll());
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    console.log("notification board page");
+    getNotification();
+  }, []);
+
   return (
     <>
       <div className="flex flex-col items-center pt-20">

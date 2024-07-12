@@ -19,12 +19,19 @@ const NorificationAddPage = () => {
 
   const submit = async () => {
     const formData = new FormData();
-    console.log(selectedFile);
+
+    console.log(selectBoard);
     formData.append("boardDto", JSON.stringify(selectBoard));
+
+    console.log(formData.get("boardDto"));
+
+    console.log(selectedFile);
 
     for (let i = 0; i < selectedFile.length; i++) {
       formData.append("files", selectedFile[i]);
     }
+
+    console.log(formData.get("files"));
 
     try {
       const response = await dispatch(save(formData));

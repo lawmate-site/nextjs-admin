@@ -241,9 +241,9 @@ export const findAllApi = async () => {
   }
 };
 
-export const saveApi = async (notification: any) => {
+export const saveApi = async (formData: any) => {
   try {
-    const data = await adminInstance().post(`/board/save`, notification, {
+    const data = await adminInstance().post(`/board/save`, formData, {
       headers: {
         "Content-Type": "multipart/form-data",
       },

@@ -177,8 +177,8 @@ export const findAll: any = createAsyncThunk("admin/findAll", async () => {
 
 export const save: any = createAsyncThunk(
   "admin/save",
-  async (notification: any) => {
-    const data: any = await saveApi(notification);
+  async (formData: any) => {
+    const data: any = await saveApi(formData);
     return data;
   }
 );
