@@ -6,7 +6,10 @@ import {
   ISendMail,
 } from "@/components/_model/admin/admin";
 import { Date } from "@/components/_model/manage/manage";
-import { adminInstance } from "@/components/config/axios-config";
+import {
+  adminFileInstance,
+  adminInstance,
+} from "@/components/config/axios-config";
 
 export const adminSaveApi = async (admin: IAdmin) => {
   try {
@@ -243,14 +246,11 @@ export const findAllApi = async () => {
 
 export const saveApi = async (formData: any) => {
   try {
-    const data = await adminInstance().post(`/board/save`, formData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    });
+    const data = await adminFileInstance().post(`/board/save`, formData);
+    console.log("success");
     return data;
   } catch (error) {
     console.error("Error saving board:", error);
-    return Promise.reject(error); // Reject the promise with the error
+    return error;
   }
 };

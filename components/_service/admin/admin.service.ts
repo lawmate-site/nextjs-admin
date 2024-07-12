@@ -4,6 +4,7 @@ import {
   allStatsOfLawyersApi,
   countEnabledAdminApi,
   deleteAdminApi,
+  findAllApi,
   getAdminByIdApi,
   getAllAdminApi,
   getLast7DaysApi,
@@ -170,8 +171,8 @@ export const getLast7Days: any = createAsyncThunk(
   }
 );
 
-export const findAll: any = createAsyncThunk("admin/findAll", async () => {
-  const data: any = await getAllAdminApi();
+export const findAll: any = createAsyncThunk("board/findAll", async () => {
+  const data: any = await findAllApi();
   return data;
 });
 

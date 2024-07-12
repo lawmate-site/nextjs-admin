@@ -27,17 +27,25 @@ const NorificationAddPage = () => {
 
     console.log(selectedFile);
 
-    for (let i = 0; i < selectedFile.length; i++) {
-      formData.append("files", selectedFile[i]);
+    if (selectedFile.length == 0) {
+      alert("파일을 선택해주세요.");
+      return 0;
     }
+
+    selectedFile.forEach((file) => {
+      formData.append("files", file, file.name);
+    });
 
     console.log(formData.get("files"));
 
     try {
-      const response = await dispatch(save(formData));
-      console.log(response);
+      await dispatch(save(formData));
+
+      router.push("/notification");
     } catch (error) {
       console.log(error);
+
+      return error;
     }
   };
 
@@ -69,7 +77,7 @@ const NorificationAddPage = () => {
             type="file"
             className="mt-4"
             onChange={(event: any) => {
-              setSelectedFile(event.target.files);
+              setSelectedFile(Array.from(event.target.files));
             }}
             multiple
           />
