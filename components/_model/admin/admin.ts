@@ -20,3 +20,14 @@ export interface ISendBulkMail {
   subject?: string;
   text?: string;
 }
+
+export interface IAdminBoard {
+  id?: string;
+  title?: string;
+  content?: string;
+  writer?: string;
+  viewCount?: number;
+  files: [];
+  createdDate?: string;
+  modifiedDate?: string;
+}

@@ -229,3 +229,28 @@ export const getLast7DaysApi = async () => {
     return error;
   }
 };
+
+export const findAllApi = async () => {
+  try {
+    const response = await adminInstance().get(`/board/all`);
+    console.log("success");
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    return error;
+  }
+};
+
+export const saveApi = async (notification: any) => {
+  try {
+    const data = await adminInstance().post(`/board/save`, notification, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    return data;
+  } catch (error) {
+    console.error("Error saving board:", error);
+    return Promise.reject(error); // Reject the promise with the error
+  }
+};

@@ -21,7 +21,7 @@ export const lawyerInstance = () => {
 };
 
 export const adminInstance = () => {
-  const instance = axios.create({ baseURL: adminURL });
+  const instance = axios.create({ baseURL: "http://localhost:8082" });
   setInterceptor(instance);
   return instance;
 };

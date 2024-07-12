@@ -11,6 +11,7 @@ import {
   getYearVisitsApi,
   permitAdminByIdApi,
   revokeAdminByIdApi,
+  saveApi,
   saveVisitsApi,
   searchAdminApi,
   sendBulkMailApi,
@@ -165,6 +166,19 @@ export const getLast7Days: any = createAsyncThunk(
   "admin/getLast7Days",
   async () => {
     const data: any = await getLast7DaysApi();
+    return data;
+  }
+);
+
+export const findAll: any = createAsyncThunk("admin/findAll", async () => {
+  const data: any = await getAllAdminApi();
+  return data;
+});
+
+export const save: any = createAsyncThunk(
+  "admin/save",
+  async (notification: any) => {
+    const data: any = await saveApi(notification);
     return data;
   }
 );
