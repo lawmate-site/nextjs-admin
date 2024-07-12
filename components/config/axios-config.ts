@@ -9,39 +9,39 @@ import {
 } from "../common/url";
 
 export const userInstance = () => {
-  const instance = axios.create({ baseURL: userURL });
-  setInterceptor(instance);
-  return instance;
+  const userInstance = axios.create({ baseURL: userURL });
+  setInterceptor(userInstance);
+  return userInstance;
 };
 
 export const lawyerInstance = () => {
-  const instance = axios.create({ baseURL: lawyerURL });
-  setInterceptor(instance);
-  return instance;
+  const lawyerInstance = axios.create({ baseURL: lawyerURL });
+  setInterceptor(lawyerInstance);
+  return lawyerInstance;
 };
 
 export const adminInstance = () => {
-  const instance = axios.create({ baseURL: "http://localhost:8082" });
-  setInterceptor(instance);
-  return instance;
+  const adminInstance = axios.create({ baseURL: "http://localhost:8082" });
+  setInterceptor(adminInstance);
+  return adminInstance;
 };
 
 export const adminFileInstance = () => {
-  const instance = axios.create({ baseURL: "http://localhost:8082" });
-  setFileInterceptor(instance);
-  return instance;
+  const adminFileInstance = axios.create({ baseURL: "http://localhost:8082" });
+  setFileInterceptor(adminFileInstance);
+  return adminFileInstance;
 };
 
 export const chatInstance = () => {
-  const instance = axios.create({ baseURL: chatURL });
-  setInterceptor(instance);
-  return instance;
+  const chatInstance = axios.create({ baseURL: chatURL });
+  setInterceptor(chatInstance);
+  return chatInstance;
 };
 
 export const manageInstance = () => {
-  const instance = axios.create({ baseURL: manageURL });
-  setInterceptor(instance);
-  return instance;
+  const manageInstance = axios.create({ baseURL: manageURL });
+  setInterceptor(manageInstance);
+  return manageInstance;
 };
 
 export const setInterceptor = (inputInstance: AxiosInstance) => {

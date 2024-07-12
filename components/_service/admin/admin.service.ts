@@ -171,13 +171,16 @@ export const getLast7Days: any = createAsyncThunk(
   }
 );
 
-export const findAll: any = createAsyncThunk("board/findAll", async () => {
-  const data: any = await findAllApi();
-  return data;
-});
+export const findAll: any = createAsyncThunk(
+  "admin/board/findAll",
+  async () => {
+    const data: any = await findAllApi();
+    return data;
+  }
+);
 
 export const save: any = createAsyncThunk(
-  "admin/save",
+  "admin/board/save",
   async (formData: any) => {
     const data: any = await saveApi(formData);
     return data;

@@ -2,6 +2,7 @@
 
 import { IAdminBoard } from "@/components/_model/admin/admin";
 import { save } from "@/components/_service/admin/admin.service";
+import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
@@ -20,32 +21,33 @@ const NorificationAddPage = () => {
   const submit = async () => {
     const formData = new FormData();
 
-    console.log(selectBoard);
     formData.append("boardDto", JSON.stringify(selectBoard));
-
-    console.log(formData.get("boardDto"));
-
-    console.log(selectedFile);
 
     if (selectedFile.length == 0) {
       alert("파일을 선택해주세요.");
       return 0;
     }
 
-    selectedFile.forEach((file) => {
-      formData.append("files", file, file.name);
+    Array.from(selectedFile).forEach((file: File) => {
+      formData.append("files", file);
     });
 
-    console.log(formData.get("files"));
-
     try {
-      await dispatch(save(formData));
-
-      router.push("/notification");
+      const response = await axios.post(
+        "http://localhost:8082/board/save",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+      if (response.status === 200) {
+        alert("파일이 성공적으로 등록되었습니다.");
+        router.push("/notification");
+      }
     } catch (error) {
       console.log(error);
-
-      return error;
     }
   };
 
@@ -77,7 +79,8 @@ const NorificationAddPage = () => {
             type="file"
             className="mt-4"
             onChange={(event: any) => {
-              setSelectedFile(Array.from(event.target.files));
+              const files = event.target.files;
+              setSelectedFile(Array.from(files));
             }}
             multiple
           />
