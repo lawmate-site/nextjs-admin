@@ -3,6 +3,7 @@
 import {
   getLast7Days,
   getMonthlyVisits,
+  getVisitorCountToday,
   getYearVisits,
 } from "@/components/_service/admin/admin.service";
 import { useEffect, useState } from "react";
@@ -23,6 +24,7 @@ const VisitorWeekly = () => {
     title: "Chart Title",
     colors: ["gray"],
   };
+  const [visitorCountToday, setVisitorCountToday] = useState(0);
 
   useEffect(() => {
     return () => {
@@ -30,15 +32,7 @@ const VisitorWeekly = () => {
         dispatch(getMonthlyVisits(visitors)).then((res: any) => {
           setMonth(res.payload);
         });
-      } catch (error) {
-        console.log(error);
-      }
-    };
-  }, [visitors]);
 
-  useEffect(() => {
-    return () => {
-      try {
         dispatch(getYearVisits(visitors)).then((res: any) => {
           const transformedData = Object.entries(res.payload).map(
             ([day, visits]: any) => [
@@ -62,6 +56,9 @@ const VisitorWeekly = () => {
   useEffect(() => {
     return () => {
       try {
+        dispatch(getVisitorCountToday()).then((res: any) => {
+          setVisitorCountToday(res.payload);
+        });
         dispatch(getLast7Days()).then((res: any) => {
           const transformedData = Object.entries(res.payload).map(
             ([day, visits]: any) => [
@@ -90,6 +87,7 @@ const VisitorWeekly = () => {
         <Chart chartType="LineChart" data={visitorsData} options={options} />
         <h1 className="text-[32px]">7일간</h1>
         <Chart chartType="LineChart" data={last7Days} options={options} />
+        <h1 className="text-[32px]">오늘 방문자: {visitorCountToday}</h1>
       </div>
     </>
   );

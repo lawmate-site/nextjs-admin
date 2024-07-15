@@ -254,3 +254,14 @@ export const saveApi = async (formData: any) => {
     return error;
   }
 };
+
+export const getVisitorCountTodayApi = async () => {
+  try {
+    const response = await adminInstance().get(`/visit/today`);
+    console.log("success");
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    return error;
+  }
+};

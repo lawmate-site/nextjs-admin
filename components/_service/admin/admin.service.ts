@@ -9,6 +9,7 @@ import {
   getAllAdminApi,
   getLast7DaysApi,
   getMonthlyVisitsApi,
+  getVisitorCountTodayApi,
   getYearVisitsApi,
   permitAdminByIdApi,
   revokeAdminByIdApi,
@@ -183,6 +184,14 @@ export const save: any = createAsyncThunk(
   "admin/board/save",
   async (formData: any) => {
     const data: any = await saveApi(formData);
+    return data;
+  }
+);
+
+export const getVisitorCountToday: any = createAsyncThunk(
+  "admin/board/getVisitorCountToday",
+  async () => {
+    const data: any = await getVisitorCountTodayApi();
     return data;
   }
 );
