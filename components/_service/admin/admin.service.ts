@@ -149,16 +149,16 @@ export const saveVisits: any = createAsyncThunk(
 
 export const getMonthlyVisits: any = createAsyncThunk(
   "admin/getMonthlyVisits",
-  async (month: Date) => {
-    const data: any = await getMonthlyVisitsApi(month);
+  async (visitors: any) => {
+    const data: any = await getMonthlyVisitsApi(visitors);
     return data;
   }
 );
 
 export const getYearVisits: any = createAsyncThunk(
   "admin/getYearVisits",
-  async (year: Date) => {
-    const data: any = await getYearVisitsApi(year);
+  async (visitors: any) => {
+    const data: any = await getYearVisitsApi(visitors);
     return data;
   }
 );

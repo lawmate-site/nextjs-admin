@@ -193,10 +193,10 @@ export const saveVisitsApi = async () => {
   }
 };
 
-export const getMonthlyVisitsApi = async (month: Date) => {
+export const getMonthlyVisitsApi = async (visitors: any) => {
   try {
     const response = await adminInstance().get(`/visit/month`, {
-      params: { month },
+      params: { year: visitors.year, month: visitors.month },
     });
 
     console.log("success");
@@ -207,10 +207,10 @@ export const getMonthlyVisitsApi = async (month: Date) => {
   }
 };
 
-export const getYearVisitsApi = async (year: Date) => {
+export const getYearVisitsApi = async (visitors: any) => {
   try {
     const response = await adminInstance().get(`/visit/year`, {
-      params: { year },
+      params: { year: visitors.year },
     });
 
     console.log("success");

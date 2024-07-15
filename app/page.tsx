@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import "animate.css";
 import { useDispatch } from "react-redux";
+import { saveVisits } from "@/components/_service/admin/admin.service";
 
 export default function Home(props: any) {
   const router = useRouter();
@@ -11,12 +12,10 @@ export default function Home(props: any) {
   const [isOpenLawLaw, setIsOpenLawLaw] = useState(false);
 
   useEffect(() => {
-    if (isOpenLawLaw) {
-      console.log("isOpenLawLaw", isOpenLawLaw);
-    } else {
-      console.log("isOpenLawLaw", isOpenLawLaw);
-    }
-  }, [isOpenLawLaw]);
+    return () => {
+      dispatch(saveVisits());
+    };
+  }, []);
 
   return (
     <>

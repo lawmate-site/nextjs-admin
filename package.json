@@ -28,7 +28,8 @@
     "prisma": "5.15.0",
     "@prisma/client": "5.15.0",
     "shadcn-ui": "0.8.0",
-    "animate.css": "4.1.1"
+    "animate.css": "4.1.1",
+    "react-google-charts": "4.0.1"
   },
   "devDependencies": {
     "typescript": "^5",
