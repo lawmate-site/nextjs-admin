@@ -4,6 +4,8 @@ import {
   allStatsOfLawyersApi,
   countEnabledAdminApi,
   deleteAdminApi,
+  enableAdminByIdApi,
+  enabledAdminApi,
   findAllApi,
   getAdminByIdApi,
   getAllAdminApi,
@@ -11,8 +13,6 @@ import {
   getMonthlyVisitsApi,
   getVisitorCountTodayApi,
   getYearVisitsApi,
-  permitAdminByIdApi,
-  revokeAdminByIdApi,
   saveApi,
   saveVisitsApi,
   searchAdminApi,
@@ -26,7 +26,6 @@ import {
   ISendBulkMail,
   ISendMail,
 } from "@/components/_model/admin/admin";
-import { Date } from "@/components/_model/manage/manage";
 
 export const adminSave: any = createAsyncThunk(
   "admin/adminSave",
@@ -68,18 +67,18 @@ export const deleteAdmin: any = createAsyncThunk(
   }
 );
 
-export const permitAdminById: any = createAsyncThunk(
-  "admin/permitAdminById",
+export const enableAdminById: any = createAsyncThunk(
+  "admin/enableAdminById",
   async (id: number) => {
-    const data: any = await permitAdminByIdApi(id);
+    const data: any = await enableAdminByIdApi(id);
     return data;
   }
 );
 
-export const revokeAdminById: any = createAsyncThunk(
-  "admin/revokeAdminById",
-  async (id: number) => {
-    const data: any = await revokeAdminByIdApi(id);
+export const enabledAdmin: any = createAsyncThunk(
+  "admin/enabledAdmin",
+  async () => {
+    const data: any = await enabledAdminApi();
     return data;
   }
 );

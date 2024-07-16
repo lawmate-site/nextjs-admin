@@ -63,7 +63,6 @@ export const deleteAdminApi = async (id: number) => {
   try {
     const response = await adminInstance().delete(`/${id}`);
 
-    console.log("success");
     return response.data;
   } catch (error) {
     console.log(error);
@@ -71,11 +70,10 @@ export const deleteAdminApi = async (id: number) => {
   }
 };
 
-export const permitAdminByIdApi = async (id: number) => {
+export const enableAdminByIdApi = async (id: number) => {
   try {
-    const response = await adminInstance().get(`/permit/${id}`);
+    const response = await adminInstance().put(`/enabled/${id}`);
 
-    console.log("success");
     return response.data;
   } catch (error) {
     console.log(error);
@@ -83,11 +81,10 @@ export const permitAdminByIdApi = async (id: number) => {
   }
 };
 
-export const revokeAdminByIdApi = async (id: number) => {
+export const enabledAdminApi = async () => {
   try {
-    const response = await adminInstance().get(`/revoke/${id}`);
+    const response = await adminInstance().get("/enabled");
 
-    console.log("success");
     return response.data;
   } catch (error) {
     console.log(error);

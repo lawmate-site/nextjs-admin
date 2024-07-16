@@ -5,6 +5,7 @@ export interface IAdmin {
   role?: string;
   username?: string;
   name?: string;
+  enabled?: boolean;
 }
 
 export interface ISendMail {

@@ -9,7 +9,6 @@ import { saveVisits } from "@/components/_service/admin/admin.service";
 export default function Home(props: any) {
   const router = useRouter();
   const dispatch = useDispatch();
-  const [isOpenLawLaw, setIsOpenLawLaw] = useState(false);
 
   useEffect(() => {
     return () => {
