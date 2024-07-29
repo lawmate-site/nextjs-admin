@@ -1,5 +1,7 @@
 "use client";
 
+import { getAccessToken } from "@/components/modules/cookies";
+import { get } from "http";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -9,12 +11,27 @@ const Login = () => {
   const router = useRouter();
   const dispatch = useDispatch();
   const [formData, setFormData] = useState({
-    username: "",
+    email: "",
     password: "",
   });
 
   const handleLogin = async () => {
-    try {
+
+      const response = await fetch('http://localhost:8000/auth/admin/login', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+        credentials: 'include',
+    });
+
+    if (response.ok) {
+      //  console.log(response.headers.get('Authorization'));
+        alert('Registration successful!');
+        router.push('/');
+    } else {
+        alert('Registration failed!');
       // await dispatch(loginId(formData))
       //   .then((res: any) => {
       //     alert("success to login");
@@ -26,10 +43,9 @@ const Login = () => {
       //   .catch((error: any) => {
       //     console.log(error);
       //   });
-    } catch (error) {
-      console.log(error);
-    }
+ 
   };
+}
 
   return (
     <>
@@ -40,15 +56,15 @@ const Login = () => {
         >
           <p className=" text-[28px] font-medium align-middle">로그인</p>
           <div>
-            <label htmlFor="username">
+            <label htmlFor="email">
               <input
                 type="text"
-                id="username"
-                name="username"
+                id="email"
+                name="email"
                 placeholder="Username"
-                value={formData.username}
+                value={formData.email}
                 onChange={(e: any) =>
-                  setFormData({ ...formData, username: e.target.value })
+                  setFormData({ ...formData, email: e.target.value })
                 }
                 className="w-[22vw] h-[5vh] border border-[var(--color-Harbor-first)] px-[1.111vw] mb-[1.111vh] bg-white"
               />
