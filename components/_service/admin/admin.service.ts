@@ -26,6 +26,10 @@ import {
   ISendBulkMail,
   ISendMail,
 } from "@/components/_model/admin/admin";
+import { adminURL } from "@/components/common/url";
+import axios from "axios";
+import { EventSourcePolyfill } from "event-source-polyfill";
+const API_URL = adminURL + "/chat";
 
 export const adminSave: any = createAsyncThunk(
   "admin/adminSave",
@@ -194,3 +198,35 @@ export const getVisitorCountToday: any = createAsyncThunk(
     return data;
   }
 );
+
+export const createChatRoom = async (sender: string, receiver: string) => {
+  const response = await axios.get(`${API_URL}/create`, {
+    params: { sender, receiver },
+  });
+  return response.data;
+};
+
+export const getChatHistory = async (roomId: string) => {
+  const response = await fetch(`${API_URL}/history?roomId=${roomId}`, {
+    method: "GET",
+    credentials: "include",
+  });
+  return response.json();
+};
+
+export const sendMessage = async (chatMessage: any) => {
+  await fetch(`${API_URL}/send`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(chatMessage),
+    credentials: "include",
+  });
+};
+
+export const getMessages = (roomId: string) => {
+  return new EventSourcePolyfill(`${API_URL}/messages?roomId=${roomId}`, {
+    withCredentials: true,
+  });
+};

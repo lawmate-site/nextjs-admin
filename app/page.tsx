@@ -1,20 +1,22 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import "animate.css";
 import { useDispatch } from "react-redux";
 import { saveVisits } from "@/components/_service/admin/admin.service";
 import ChatList from "../components/common/chat/ChatList";
+
 const lawyers = [
-  { id: 'lawyer1', name: 'Lawyer 1' },
-  { id: 'lawyer2', name: 'Lawyer 2' },
-  { id: 'lawyer3', name: 'Lawyer 3' },
+  { id: "lawyer1", name: "Lawyer 1" },
+  { id: "lawyer2", name: "Lawyer 2" },
+  { id: "lawyer3", name: "Lawyer 3" },
 ];
+
 export default function Home(props: any) {
   const router = useRouter();
   const dispatch = useDispatch();
-  const currentUser = 'user1';
+  const currentUser = "user1";
   useEffect(() => {
     return () => {
       dispatch(saveVisits());
@@ -49,8 +51,6 @@ export default function Home(props: any) {
         </div>
         <ChatList lawyers={lawyers} currentUser={currentUser} />
       </div>
-
-
     </>
   );
 }
