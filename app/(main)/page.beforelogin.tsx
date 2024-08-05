@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import "animate.css";
 
-export default function BeforeLoginedPage(props: any) {
+const BeforeLoginedPage = (props: any) => {
   const router = useRouter();
   const [isOpenLawLaw, setIsOpenLawLaw] = useState(false);
 
@@ -22,7 +22,7 @@ export default function BeforeLoginedPage(props: any) {
         className={`flex flex-col justify-center items-center h-screen relative`}
       >
         <div className="flex flex-col p-0 justify-center items-center">
-          <img src="/img/LAWMATE.jpg" className="w-[40vw]" alt="logo" />
+          <img src="/images/LAWMATE.jpg" className="w-[40vw]" alt="logo" />
           <div className=" justify-start flex flex-col gap-[0.5vh]">
             <div className="bg-[var(--color-Harbor-firth)] w-[41.53vw] hover:bg-gradient-to-r from-[var(--color-Harbor-first)] to-[var(--color-Harbor-firth)] transition duration-500 ease-in-out px-[2vw]">
               <button
@@ -45,4 +45,6 @@ export default function BeforeLoginedPage(props: any) {
       </div>
     </>
   );
-}
+};
+
+export default BeforeLoginedPage;

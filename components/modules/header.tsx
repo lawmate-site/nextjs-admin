@@ -6,6 +6,7 @@ import { useDispatch } from "react-redux";
 import { useRouter } from "next/navigation";
 import { getAccessToken } from "./cookies";
 import Image from "next/image";
+import MenuPage from "@/app/menues/page";
 
 const Header = ({ isDropdownOpen, setIsDropdownOpen }: any) => {
   const dispatch = useDispatch();
@@ -33,7 +34,7 @@ const Header = ({ isDropdownOpen, setIsDropdownOpen }: any) => {
 
   return (
     <>
-      {isLoggedIn ? (
+      {isLoggedIn || window.location.pathname === "/afterLogin" ? (
         <nav
           className={`items-center fixed top-0 h-[5vh] w-screen z-20 flex flex-row justify-between `}
         >
@@ -48,6 +49,7 @@ const Header = ({ isDropdownOpen, setIsDropdownOpen }: any) => {
                     alt="arrow-right"
                     className="z-20"
                   />
+                  <MenuPage />
                 </>
               ) : (
                 <Image
