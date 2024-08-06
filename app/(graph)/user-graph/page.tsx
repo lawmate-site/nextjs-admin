@@ -1,16 +1,15 @@
 "use client";
 
 import {
-  getLast7Days,
-  getMonthlyVisits,
-  getVisitorCountToday,
-  getYearVisits,
+  getUserDateStats,
+  getUserMonthStates,
+  getUserTotalStats,
+  getUserYearStats,
 } from "@/components/_service/admin/admin.service";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { Chart } from "react-google-charts";
 
-const VisitorWeekly = (props: any) => {
+const UserGraph = (props: any) => {
   const dispatch = useDispatch();
   const [visitors, setVisitors] = useState({
     year: "2024",
@@ -29,11 +28,13 @@ const VisitorWeekly = (props: any) => {
   useEffect(() => {
     return () => {
       try {
-        dispatch(getMonthlyVisits(visitors)).then((res: any) => {
+        dispatch(getUserTotalStats()).then((res: any) => {
+          console.log(res);
           setMonth(res.payload);
         });
 
-        dispatch(getYearVisits(visitors)).then((res: any) => {
+        dispatch(getUserMonthStates()).then((res: any) => {
+          console.log(res);
           const transformedData = Object.entries(res.payload).map(
             ([day, visits]: any) => [
               day,
@@ -47,19 +48,25 @@ const VisitorWeekly = (props: any) => {
           transformedData.unshift(["Day", "Visits"]); // Add header
           setVisitorsData(transformedData);
         });
-      } catch (error) {
-        console.log(error);
-      }
-    };
-  }, [visitors]);
 
-  useEffect(() => {
-    return () => {
-      try {
-        dispatch(getVisitorCountToday()).then((res: any) => {
-          setVisitorCountToday(res.payload);
+        dispatch(getUserDateStats()).then((res: any) => {
+          console.log(res);
+          const transformedData = Object.entries(res.payload).map(
+            ([day, visits]: any) => [
+              day,
+              parseInt(visits), // Ensure visits is a number
+            ]
+          );
+
+          // Sort the data by day in ascending order
+          transformedData.sort((a, b) => parseInt(a[0]) - parseInt(b[0]));
+
+          transformedData.unshift(["Day", "Visits"]); // Add header
+          setLast7Days(transformedData);
         });
-        dispatch(getLast7Days()).then((res: any) => {
+
+        dispatch(getUserYearStats()).then((res: any) => {
+          console.log(res);
           const transformedData = Object.entries(res.payload).map(
             ([day, visits]: any) => [
               day,
@@ -77,30 +84,15 @@ const VisitorWeekly = (props: any) => {
         console.log(error);
       }
     };
-  }, []);
-
+  }, [visitors]);
   return (
     <>
-      <div className="w-[800px] h-80 border p-2">
+      <div className="w-[1200px] h-80 border p-2">
         <div className="border-b p-2 flex flex-row justify-between items-start">
-          <p>방문자 통계</p>
+          <p>유저 통계</p>
           <div className="flex flex-col items-end gap-1">
-            <h1 className="text-xs">이번달: {month || 0}</h1>
-            <h1 className="text-xs">오늘: {visitorCountToday || 0}</h1>
-          </div>
-        </div>
-        <div className="p-5 flex flex-row gap-2">
-          <div className="w-96 gap-2 border">
-            <h1 className="text-lg w-200">월간</h1>
-            <Chart
-              chartType="LineChart"
-              data={visitorsData}
-              options={options}
-            />
-          </div>
-          <div className="w-96 gap-2 border">
-            <h1 className="text-lg">7일간</h1>
-            <Chart chartType="LineChart" data={last7Days} options={options} />
+            <h1 className="text-xs">이번달: 0</h1>
+            <h1 className="text-xs">오늘: 0</h1>
           </div>
         </div>
       </div>
@@ -108,4 +100,4 @@ const VisitorWeekly = (props: any) => {
   );
 };
 
-export default VisitorWeekly;
+export default UserGraph;

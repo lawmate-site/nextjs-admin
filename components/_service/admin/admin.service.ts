@@ -2,6 +2,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import {
   adminSaveApi,
   allStatsOfLawyersApi,
+  authLoginApi,
   countEnabledAdminApi,
   deleteAdminApi,
   enableAdminByIdApi,
@@ -10,7 +11,14 @@ import {
   getAdminByIdApi,
   getAllAdminApi,
   getLast7DaysApi,
+  getLawyerAuthFalseStatsApi,
+  getLawyerStatsAllApi,
+  getLawyerTotalStatsApi,
   getMonthlyVisitsApi,
+  getUserDateStatsApi,
+  getUserMonthStatesApi,
+  getUserTotalStatsApi,
+  getUserYearStatsApi,
   getVisitorCountTodayApi,
   getYearVisitsApi,
   saveApi,
@@ -30,6 +38,14 @@ import { adminURL } from "@/components/common/url";
 import axios from "axios";
 import { EventSourcePolyfill } from "event-source-polyfill";
 const API_URL = adminURL + "/chat";
+
+export const authLogin: any = createAsyncThunk(
+  "admin/authLogin",
+  async (admin: IAdmin) => {
+    const data: any = await authLoginApi(admin);
+    return data;
+  }
+);
 
 export const adminSave: any = createAsyncThunk(
   "admin/adminSave",
@@ -230,3 +246,59 @@ export const getMessages = (roomId: string) => {
     withCredentials: true,
   });
 };
+
+export const getLawyerTotalStats: any = createAsyncThunk(
+  "admin/getLawyerTotalStats",
+  async () => {
+    const data: any = await getLawyerTotalStatsApi();
+    return data;
+  }
+);
+
+export const getLawyerAuthFalseStats: any = createAsyncThunk(
+  "admin/getLawyerAuthFalseStats",
+  async () => {
+    const data: any = await getLawyerAuthFalseStatsApi();
+    return data;
+  }
+);
+
+export const getLawyerStatsAll: any = createAsyncThunk(
+  "admin/getLawyerStatsAll",
+  async () => {
+    const data: any = await getLawyerStatsAllApi();
+    return data;
+  }
+);
+
+export const getUserTotalStats: any = createAsyncThunk(
+  "admin/getUserTotalStats",
+  async () => {
+    const data: any = await getUserTotalStatsApi();
+    return data;
+  }
+);
+
+export const getUserMonthStates: any = createAsyncThunk(
+  "admin/getUserMonthStates",
+  async () => {
+    const data: any = await getUserMonthStatesApi();
+    return data;
+  }
+);
+
+export const getUserDateStats: any = createAsyncThunk(
+  "admin/getUserDateStats",
+  async () => {
+    const data: any = await getUserDateStatsApi();
+    return data;
+  }
+);
+
+export const getUserYearStats: any = createAsyncThunk(
+  "admin/getUserYearStats",
+  async () => {
+    const data: any = await getUserYearStatsApi();
+    return data;
+  }
+);

@@ -9,7 +9,20 @@ import { Date } from "@/components/_model/manage/manage";
 import {
   adminFileInstance,
   adminInstance,
+  manageInstance,
 } from "@/components/config/axios-config";
+
+export const authLoginApi = async (admin: IAdmin) => {
+  try {
+    const response = await adminInstance().post("/auth/login", admin);
+
+    console.log("success");
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    return error;
+  }
+};
 
 export const adminSaveApi = async (admin: IAdmin) => {
   try {
@@ -255,6 +268,83 @@ export const saveApi = async (formData: any) => {
 export const getVisitorCountTodayApi = async () => {
   try {
     const response = await adminInstance().get(`/visit/today`);
+    console.log("success");
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    return error;
+  }
+};
+
+export const getLawyerTotalStatsApi = async () => {
+  try {
+    const response = await adminInstance().get(`/lawyer/stats/total`);
+    console.log("success");
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    return error;
+  }
+};
+
+export const getLawyerAuthFalseStatsApi = async () => {
+  try {
+    const response = await adminInstance().get(`/lawyer/stats/authFalse`);
+    console.log("success");
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    return error;
+  }
+};
+
+export const getLawyerStatsAllApi = async () => {
+  try {
+    const response = await adminInstance().get(`/lawyer/stats/all`);
+    console.log("success");
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    return error;
+  }
+};
+
+export const getUserTotalStatsApi = async () => {
+  try {
+    const response = await manageInstance().get(`/user/stats/total`);
+    console.log("success");
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    return error;
+  }
+};
+
+export const getUserMonthStatesApi = async () => {
+  try {
+    const response = await manageInstance().get(`/user/stats/month`);
+    console.log("success");
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    return error;
+  }
+};
+
+export const getUserDateStatsApi = async () => {
+  try {
+    const response = await manageInstance().get(`/user/stats/date`);
+    console.log("success");
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    return error;
+  }
+};
+
+export const getUserYearStatsApi = async () => {
+  try {
+    const response = await manageInstance().get(`/user/stats/year`);
     console.log("success");
     return response.data;
   } catch (error) {

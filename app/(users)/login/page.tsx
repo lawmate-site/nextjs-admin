@@ -6,50 +6,47 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
+import { IAdmin } from "@/components/_model/admin/admin";
+import { useForm } from "react-hook-form";
+import { authLogin } from "@/components/_service/admin/admin.service";
 
 const Login = () => {
   const router = useRouter();
   const dispatch = useDispatch();
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-  });
+  const {
+    register,
+    handleSubmit,
+    watch,
+    setValue,
+    getValues,
+    formState: { errors },
+  } = useForm<IAdmin>();
 
-  const handleLogin = async () => {
-
-      const response = await fetch('http://localhost:8000/auth/admin/login', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-        credentials: 'include',
-    });
-
-    if (response.ok) {
-      //  console.log(response.headers.get('Authorization'));
-        alert('Registration successful!');
-        router.push('/');
-    } else {
-        alert('Registration failed!');
-      // await dispatch(loginId(formData))
-      //   .then((res: any) => {
-      //     alert("success to login");
-      //     console.log(res.payload.userId);
-      //   })
-      //   .then(() => {
-      //     router.push("/");
-      //   })
-      //   .catch((error: any) => {
-      //     console.log(error);
-      //   });
- 
+  const onSubmit = async (data: IAdmin) => {
+    console.log("입력된 값 : " + JSON.stringify(data));
+    try {
+      await dispatch(authLogin(data))
+        .then((res: any) => {
+          alert("success to Login");
+          console.log(res);
+        })
+        .then(() => {
+          router.push("/");
+        })
+        .catch((error: any) => {
+          console.log(error);
+        });
+    } catch (error) {
+      console.log(error);
+    }
   };
-}
 
   return (
     <>
-      <div className="flex flex-col w-screen h-screen items-center justify-center">
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="flex flex-col w-screen h-screen items-center justify-center"
+      >
         <div
           id="login"
           className="font-roboto w-[25vw] border border-gray-700 flex flex-col gap-3 items-baseline bg-[var(--color-Harbor-firth)] p-7"
@@ -60,12 +57,8 @@ const Login = () => {
               <input
                 type="text"
                 id="email"
-                name="email"
-                placeholder="Username"
-                value={formData.email}
-                onChange={(e: any) =>
-                  setFormData({ ...formData, email: e.target.value })
-                }
+                placeholder="Email"
+                {...register("email")}
                 className="w-[22vw] h-[5vh] border border-[var(--color-Harbor-first)] px-[1.111vw] mb-[1.111vh] bg-white"
               />
             </label>
@@ -73,34 +66,24 @@ const Login = () => {
               <input
                 type="password"
                 id="password"
-                name="password"
                 placeholder="Password"
-                value={formData.password}
-                onChange={(e: any) =>
-                  setFormData({ ...formData, password: e.target.value })
-                }
+                {...register("password")}
                 onKeyDown={(e: any) => {
                   if (e.key === "Enter") {
-                    handleLogin();
+                    handleSubmit(onSubmit);
                   }
                 }}
                 className="w-[22vw] h-[5vh] border border-[var(--color-Harbor-first)] px-[1.111vw] mb-[1.111vh] bg-white"
               />
             </label>
             <button
-              onClick={() => handleLogin()}
+              type="submit"
               className="w-[22vw] h-[5vh] bg-white border border-[var(--color-Harbor-first)] hover:bg-[var(--color-Harbor-first)] hover:text-white  font-bold"
             >
               Login
             </button>
           </div>
           <div className="w-[22vw] flex flex-col p-[1.111vh]">
-            <p
-              onClick={() => router.push(`/find-username`)}
-              className="text-gray-700 text-sm"
-            >
-              Forgot your username?
-            </p>
             <p
               onClick={() => router.push(`/find-password`)}
               className="text-gray-700 text-sm"
@@ -115,7 +98,7 @@ const Login = () => {
             </p>
           </div>
         </div>
-      </div>
+      </form>
     </>
   );
 };

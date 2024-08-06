@@ -1,20 +1,32 @@
 "use client";
 
-import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
 import { IAdmin } from "@/components/_model/admin/admin";
 import { adminSave } from "@/components/_service/admin/admin.service";
+import { useForm } from "react-hook-form";
 
 function Join() {
   const router = useRouter();
   const dispatch = useDispatch();
-  const [formData, setFormData] = useState({} as IAdmin);
+  const {
+    register,
+    handleSubmit,
+    watch,
+    setValue,
+    getValues,
+    formState: { errors },
+  } = useForm<IAdmin>();
 
-  const handleJoin = async () => {
+  const options = [
+    { value: "super", label: "super" },
+    { value: "normal", label: "normal" },
+  ];
+
+  const onSubmit = async (data: IAdmin) => {
+    console.log("입력된 값 : " + JSON.stringify(data));
     try {
-      console.log(formData);
-      await dispatch(adminSave(formData))
+      await dispatch(adminSave(data))
         .then((res: any) => {
           alert("success to join us");
           console.log(res);
@@ -32,8 +44,10 @@ function Join() {
 
   return (
     <>
-      {" "}
-      <div className="flex flex-col w-screen h-screen items-center justify-center">
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="flex flex-col w-screen h-screen items-center justify-center"
+      >
         <div
           id="login"
           className="font-roboto w-[37vw] border border-gray-700 flex flex-col gap-3 items-baseline bg-[var(--color-Harbor-firth)] p-7"
@@ -48,11 +62,8 @@ function Join() {
               <input
                 type="text"
                 id="username"
-                name="username"
                 placeholder="Username"
-                onChange={(e: any) =>
-                  setFormData({ ...formData, username: e.target.value })
-                }
+                {...register("username")}
                 className="w-[22vw] h-[5vh] border border-[var(--color-Harbor-first)] px-[1.111vw] mb-[1.111vh] bg-white"
               />
             </label>
@@ -64,11 +75,8 @@ function Join() {
               <input
                 type="password"
                 id="password"
-                name="password"
                 placeholder="Password"
-                onChange={(e: any) =>
-                  setFormData({ ...formData, password: e.target.value })
-                }
+                {...register("password")}
                 className="w-[22vw] h-[5vh] border border-[var(--color-Harbor-first)] px-[1.111vw] mb-[1.111vh] bg-white"
               />
             </label>
@@ -80,11 +88,8 @@ function Join() {
               <input
                 type="text"
                 id="email"
-                name="email"
                 placeholder="Email"
-                onChange={(e: any) =>
-                  setFormData({ ...formData, email: e.target.value })
-                }
+                {...register("email")}
                 className="w-[22vw] h-[5vh] border border-[var(--color-Harbor-first)] px-[1.111vw] mb-[1.111vh] bg-white"
               />
             </label>
@@ -96,34 +101,34 @@ function Join() {
               <input
                 type="text"
                 id="name"
-                name="name"
                 placeholder="Name"
-                onChange={(e: any) =>
-                  setFormData({ ...formData, name: e.target.value })
-                }
+                {...register("name")}
                 className="w-[22vw] h-[5vh] border border-[var(--color-Harbor-first)] px-[1.111vw] mb-[1.111vh] bg-white"
               />
             </label>
             <label
-              htmlFor="lawyerNo"
+              htmlFor="role"
               className="flex flex-row items-center justify-between w-[33vw]"
             >
-              <p className="text-[22px] font-medium">역할</p>
+              <p className="w-[11vw] text-[22px] font-medium">분야</p>
               <select
-                name="roles"
-                id="role-select"
                 className="w-[22vw] h-[5vh] border border-[var(--color-Harbor-first)] px-[1.111vw] mb-[1.111vh] bg-white"
-                onChange={(e: any) =>
-                  setFormData({ ...formData, role: e.target.value })
-                }
+                style={{ flexBasis: 0, flexGrow: 1 }}
+                value={watch("role")}
+                id="role"
+                {...register("role")}
+                name="role"
               >
-                <option value="">--Please choose an option--</option>
-                <option value="super">Super</option>
-                <option value="normal">Normal</option>
+                <option>담당분야를 선택하세요</option>
+                {options.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
               </select>
             </label>
             <button
-              onClick={() => handleJoin()}
+              type="submit"
               className="w-[33vw] h-[5vh] bg-white border border-[var(--color-Harbor-first)] hover:bg-[var(--color-Harbor-first)] hover:text-white  font-bold"
             >
               Login
@@ -131,20 +136,14 @@ function Join() {
           </div>
           <div className="w-[22vw] flex flex-col p-[1.111vh]">
             <p
-              onClick={() => router.push(`/login/lawyer`)}
+              onClick={() => router.push(`/login`)}
               className="text-gray-700 text-sm"
             >
               Already Joined?
             </p>
-            <p
-              onClick={() => router.push(`/login/user`)}
-              className="text-gray-700 text-sm"
-            >
-              Are you a general user?
-            </p>
           </div>
         </div>
-      </div>
+      </form>
     </>
   );
 }
