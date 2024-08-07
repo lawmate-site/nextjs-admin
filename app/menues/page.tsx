@@ -47,15 +47,21 @@ const MenuPage = (props: any) => {
       children: [
         {
           key: 3.1,
-          title: "변호사 관리",
+          title: "변호사",
           path: "/management/lawyer",
           icon: "https://img.icons8.com/?size=100&id=vJChIOXZSi8F&format=png&color=000000",
         },
         {
           key: 3.2,
-          title: "사용자 관리",
+          title: "사용자",
           path: "/management/user",
           icon: "https://img.icons8.com/?size=100&id=85167&format=png&color=000000",
+        },
+        {
+          key: 3.3,
+          title: "관리자",
+          path: "/management/admin",
+          icon: "https://img.icons8.com/?size=100&id=100521&format=png&color=000000",
         },
       ],
     },
