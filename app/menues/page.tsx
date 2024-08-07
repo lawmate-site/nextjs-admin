@@ -5,6 +5,7 @@ import { jwtDecode } from "jwt-decode";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { parseCookies } from "nookies";
+import { title } from "process";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 
@@ -18,13 +19,22 @@ const MenuPage = (props: any) => {
   const MenuAfterLogin = [
     {
       key: "1",
-      title: "Home",
-      sub: "Home",
+      title: "Dashboard",
+      icon: "https://img.icons8.com/?size=100&id=yBugi9w42EET&format=png&color=000000",
+      router: "/afterLogin",
+      children: [],
+    },
+    {
+      key: "2",
+      title: "Management",
+      router: "",
+      icon: "https://img.icons8.com/?size=100&id=123484&format=png&color=000000",
       children: [
         {
-          key: "1",
-          title: "Home",
-          sub: "Home",
+          key: 2.1,
+          title: "건의사항",
+          path: "/inquiry",
+          icon: "https://img.icons8.com/?size=100&id=646&format=png&color=000000",
         },
       ],
     },
@@ -42,50 +52,62 @@ const MenuPage = (props: any) => {
   return (
     <>
       <div
-        className={`${animate} border-r-2 border-[var(--color-Harbor-sec)] z-0 bg-[var(--color-Harbor-firth)] fixed top-0 left-0 font-bold text-[var(--color-Harbor-first)] w-[20vw] h-screen text-[22px] flex flex-row py-20 px-10`}
+        className={`${animate} border-r-2 border-[var(--color-Harbor-sec)] z-0 bg-[var(--color-Harbor-firth)] fixed top-0 left-0 font-bold text-[var(--color-Harbor-first)] w-[20vw] h-full py-20`}
       >
-        <div className="flex flex-col items-center justify-between">
-          <div className="flex flex-col items-center gap-5">
-            {isLoggedIn ? (
-              MenuAfterLogin.map((item: any) => (
-                <div key={item.key}>
-                  <div className="border-b border-[var(--color-Harbor-sec)] flex flex-row justify-between items-baseline w-[250px] px-[5px] mb-3">
-                    <h1>{item.title}</h1>
-                    <p className=" font-light text-[14px]">{item.sub}</p>
-                  </div>
-                  <div className="flex flex-col gap-2">
-                    {item.children.map((child: any) => (
-                      <div
-                        key={child.key}
-                        onClick={() => {
-                          window.location.replace(child.path);
-                        }}
-                        className="flex flex-row justify-between items-baseline w-[240px] px-[5px] text-[14px] group"
-                      >
-                        <h1 className="group-hover:animate-bounce-left group-hover:text-cyan-900">
-                          {child.title}
-                        </h1>
-                        <p className="group-hover:text-cyan-700 font-light text-[12px] items-center justify-center flex flex-row gap-2">
-                          {child.sub}
-                          <Image
-                            src="https://img.icons8.com/?size=100&id=86517&format=png&color=000000"
-                            width={12}
-                            height={12}
-                            alt="arrow-right"
-                          />
-                        </p>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              ))
-            ) : (
+        <div className="flex flex-col items-center justify-between h-full w-full">
+          <div className="flex flex-col items-center gap-2">
+            {MenuAfterLogin.map((item: any) => (
               <>
-                <p>you need to login if you want to save data</p>
+                <div key={item.key} onClick={() => router.push(item.router)}>
+                  <div className="flex flex-row gap-3 items-center w-[20vw] px-5 pb-2 border-b border-[var(--color-Harbor-sec)]">
+                    <Image
+                      src={item.icon}
+                      alt={item.title}
+                      width={20}
+                      height={20}
+                    />
+                    <h1 className="text-xl">{item.title}</h1>
+                  </div>
+                  {item.children.length > 0 && (
+                    <div className="flex flex-col gap-2 p-5">
+                      {item.children?.map((child: any) => (
+                        <div
+                          key={child.key}
+                          onClick={() => {
+                            window.location.replace(child.path);
+                          }}
+                          className="flex flex-row justify-between items-center w-full px-2 group"
+                        >
+                          <div className="flex flex-row items-center gap-3">
+                            <Image
+                              src={child.icon}
+                              alt={child.title}
+                              width={20}
+                              height={20}
+                              className="w-5 h-5"
+                            />
+                            <h1 className="group-hover:animate-bounce-left group-hover:text-cyan-900 text-lg">
+                              {child.title}
+                            </h1>
+                          </div>
+                          <p className="group-hover:text-cyan-700 font-light text-[12px] items-center justify-center flex flex-row gap-2">
+                            <Image
+                              src="https://img.icons8.com/?size=100&id=86517&format=png&color=000000"
+                              width={12}
+                              height={12}
+                              alt="arrow-right"
+                            />
+                          </p>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
               </>
-            )}
+            ))}
           </div>
           <div
+            className="text-2xl cursor-pointer"
             onClick={() => {
               window.location.replace("/");
             }}

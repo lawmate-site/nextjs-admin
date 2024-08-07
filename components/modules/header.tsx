@@ -36,7 +36,7 @@ const Header = ({ isDropdownOpen, setIsDropdownOpen }: any) => {
     <>
       {isLoggedIn || window.location.pathname === "/afterLogin" ? (
         <nav
-          className={`items-center fixed top-0 h-[5vh] w-screen z-20 flex flex-row justify-between `}
+          className={`items-center fixed top-0 h-10 w-screen z-20 flex flex-row justify-between `}
         >
           <div className={`flex flex-row items-center `}>
             <div className={`${rounded} relative`} onClick={() => handleMenu()}>
