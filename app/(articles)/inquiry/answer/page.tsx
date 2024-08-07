@@ -60,7 +60,7 @@ const InquiryAnswerPage: NextPage = () => {
               <input
                 type="text"
                 placeholder="제목을 입력하세요."
-                value={selectBoard.title}
+                value={selectBoard.title + "에 대한 답변"}
                 className="w-[42vw] border border-black rounded-xl h-[44px] px-4 focus:outline-none"
                 onChange={(event: any) =>
                   setSelectBoard({
