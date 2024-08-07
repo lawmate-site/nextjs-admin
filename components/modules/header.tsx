@@ -39,11 +39,12 @@ const Header = ({ isDropdownOpen, setIsDropdownOpen }: any) => {
           className={`items-center fixed top-0 h-10 w-screen z-20 flex flex-row justify-between `}
         >
           <div className={`flex flex-row items-center `}>
-            <div className={`${rounded} relative`} onClick={() => handleMenu()}>
+            <div className={`${rounded} relative`}>
               {isDropdownOpen.menu ? (
                 <>
                   <Image
                     src="https://img.icons8.com/?size=100&id=9433&format=png&color=000000"
+                    onClick={() => handleMenu()}
                     width={20}
                     height={20}
                     alt="arrow-right"
@@ -54,6 +55,7 @@ const Header = ({ isDropdownOpen, setIsDropdownOpen }: any) => {
               ) : (
                 <Image
                   src="https://img.icons8.com/?size=100&id=8113&format=png&color=000000"
+                  onClick={() => handleMenu()}
                   width={20}
                   height={20}
                   alt="arrow-right"

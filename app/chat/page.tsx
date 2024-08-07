@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import { useRouter } from "next/router";
 import ChatRoom from "@/components/common/chat/ChatRoom";

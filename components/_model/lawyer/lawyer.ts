@@ -1,19 +1,22 @@
 export interface ILawyer {
   id: number;
-  username?: string;
   email?: string;
   password?: string;
   name?: string;
   phone?: string;
   birth?: string;
   lawyerNo?: string;
+  account?: string;
   mid?: string;
-  auth?: string;
-  posts?: any;
-  replies?: any;
-  reservations?: any;
-  notices?: any;
-  detail?: ILawyerDetail;
+  auth?: boolean;
+  createdDate?: string;
+  modifiedDate?: string;
+  posts?: {};
+  files?: {};
+  replies?: {};
+  reservations?: {};
+  notices?: {};
+  detail?: {};
 }
 
 export interface ILawyerDetail {
@@ -22,9 +25,6 @@ export interface ILawyerDetail {
   address?: string;
   addressDetail?: string;
   belongPhone?: string;
-  image?: string;
-  pdf?: string;
-  sign?: string;
   law?: string;
   visitCost?: string;
   phoneCost?: string;
@@ -32,4 +32,7 @@ export interface ILawyerDetail {
   university?: string;
   major?: string;
   premium?: boolean;
+  createdDate?: string;
+  modifiedDate?: string;
+  time?: string;
 }

@@ -11,6 +11,7 @@ import { useDispatch } from "react-redux";
 
 const MenuPage = (props: any) => {
   const dispatch = useDispatch();
+  const router = useRouter();
 
   const [animate, setAnimate] = useState(
     "animate__animated animate__fadeInLeft"
@@ -26,7 +27,7 @@ const MenuPage = (props: any) => {
     },
     {
       key: "2",
-      title: "Management",
+      title: "Management Board",
       router: "",
       icon: "https://img.icons8.com/?size=100&id=123484&format=png&color=000000",
       children: [
@@ -38,9 +39,27 @@ const MenuPage = (props: any) => {
         },
       ],
     },
+    {
+      key: "3",
+      title: "Management User",
+      router: "",
+      icon: "https://img.icons8.com/?size=100&id=_MQKSTt2WaFN&format=png&color=000000",
+      children: [
+        {
+          key: 3.1,
+          title: "변호사 관리",
+          path: "/management/lawyer",
+          icon: "https://img.icons8.com/?size=100&id=vJChIOXZSi8F&format=png&color=000000",
+        },
+        {
+          key: 3.2,
+          title: "사용자 관리",
+          path: "/management/user",
+          icon: "https://img.icons8.com/?size=100&id=85167&format=png&color=000000",
+        },
+      ],
+    },
   ];
-
-  const router = useRouter();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
@@ -55,10 +74,13 @@ const MenuPage = (props: any) => {
         className={`${animate} border-r-2 border-[var(--color-Harbor-sec)] z-0 bg-[var(--color-Harbor-firth)] fixed top-0 left-0 font-bold text-[var(--color-Harbor-first)] w-[20vw] h-full py-20`}
       >
         <div className="flex flex-col items-center justify-between h-full w-full">
-          <div className="flex flex-col items-center gap-2">
+          <div className="flex flex-col items-center gap-5">
             {MenuAfterLogin.map((item: any) => (
               <>
-                <div key={item.key} onClick={() => router.push(item.router)}>
+                <div
+                  key={item.key}
+                  onClick={() => item.router !== "" && router.push(item.router)}
+                >
                   <div className="flex flex-row gap-3 items-center w-[20vw] px-5 pb-2 border-b border-[var(--color-Harbor-sec)]">
                     <Image
                       src={item.icon}
@@ -74,7 +96,7 @@ const MenuPage = (props: any) => {
                         <div
                           key={child.key}
                           onClick={() => {
-                            window.location.replace(child.path);
+                            router.push(child.path);
                           }}
                           className="flex flex-row justify-between items-center w-full px-2 group"
                         >
