@@ -1,6 +1,7 @@
 "use client";
 
 import { IUser } from "@/components/_model/user/user";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
@@ -8,6 +9,7 @@ import { useDispatch } from "react-redux";
 const ManagementUserPage = () => {
   const router = useRouter();
   const dispatch = useDispatch();
+  const [isChecked, setIsChecked] = useState(true);
   const [user, setUser] = useState<IUser[]>([
     {
       id: 0,
@@ -41,6 +43,21 @@ const ManagementUserPage = () => {
     // }
   };
 
+  const handleChange = () => {
+    console.log("before : ", isChecked);
+    try {
+      setIsChecked(!isChecked);
+      if (isChecked) {
+        console.log("after : ", isChecked);
+      } else {
+        // getEnabledNotification(currentPage);
+        console.log("after : ", isChecked);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     console.log("notification board page");
     getNotifications(currentPage);
@@ -51,6 +68,22 @@ const ManagementUserPage = () => {
     <>
       <div className="flex flex-col items-center pt-32">
         <h1 className="text-3xl">사용자 관리</h1>
+        <div className="flex flex-row items-center justify-between w-full mt-10">
+          <div className="w-40 flex flex-row items-center gap-5"></div>
+          <div className="w-7/12 h-7 border border-black flex flex-row justify-between">
+            <input className="w-80 focus:outline-none" />
+            <Image
+              width={25}
+              height={25}
+              src={
+                "https://img.icons8.com/?size=100&id=e4NkZ7kWAD7f&format=png&color=000000"
+              }
+              style={{ width: 25, height: 25 }}
+              alt={"find"}
+            />
+          </div>
+          <div className="w-40 flex flex-row items-center gap-5"></div>
+        </div>
         <div className="flex flex-col pt-10">
           <div className="flex flex-row gap-2 items-baseline border-b-2 border-black px-2 py-1 text-center">
             <div className="w-16">NO.</div>

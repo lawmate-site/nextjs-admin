@@ -13,7 +13,7 @@ import {
 import Image from "next/image";
 
 const ManagementAdminPage = () => {
-  // const router = useRouter();
+  const router = useRouter();
   const dispatch = useDispatch();
   const [notifications, setNotifications] = useState([{} as IAdmin]);
 
@@ -22,7 +22,7 @@ const ManagementAdminPage = () => {
   const [admin, setAdmin] = useState<IAdmin[]>([
     {
       id: 0,
-      email: "",
+      email: "1234@naver.com",
       password: "",
       role: "",
       name: "",
@@ -120,6 +120,7 @@ const ManagementAdminPage = () => {
             <div className="w-32">이름</div>
             <div className="w-32">역할</div>
             <div className="w-32">enabled</div>
+            <div className="w-32">SendMail</div>
           </div>
           {admin.map((item, key) => (
             <div
@@ -134,13 +135,34 @@ const ManagementAdminPage = () => {
                 <div className="w-32 px-1">{item.name}</div>
                 <div className="w-32 px-1">{item.role}</div>
                 <div className="w-32 px-1 flex items-center justify-center">
-                  <div className="w-16 px-1">
-                    <input
-                      type="checkbox"
-                      defaultChecked={item.enabled}
-                      onChange={(e: any) => handleCheck(item.id)}
-                    />
-                  </div>
+                  {!item.enabled && (
+                    <div className="w-16 px-1">
+                      <input
+                        type="checkbox"
+                        defaultChecked={item.enabled}
+                        onChange={(e: any) => handleCheck(item.enabled)}
+                      />
+                    </div>
+                  )}
+                </div>
+                <div className="w-32 px-1 flex items-center justify-center">
+                  {
+                    <div className="px-1">
+                      <Image
+                        width={20}
+                        height={20}
+                        src={
+                          "https://img.icons8.com/?size=100&id=7874&format=png&color=000000"
+                        }
+                        onClick={() =>
+                          router.push(`/management/admin/${item.email}`)
+                        }
+                        style={{ width: 20, height: 20 }}
+                        alt={"sendMail"}
+                        className="cursor-pointer"
+                      />
+                    </div>
+                  }
                 </div>
               </div>
             </div>
