@@ -21,16 +21,16 @@ export const lawyerInstance = () => {
 };
 
 export const adminInstance = () => {
-  const adminInstance = axios.create({ baseURL: "http://localhost:8082" });
+  const adminInstance = axios.create({ baseURL: adminURL });
   setInterceptor(adminInstance);
   return adminInstance;
 };
 
-export const adminFileInstance = () => {
-  const adminFileInstance = axios.create({ baseURL: "http://localhost:8082" });
-  setFileInterceptor(adminFileInstance);
-  return adminFileInstance;
-};
+// export const adminFileInstance = () => {
+//   const adminFileInstance = axios.create({ baseURL: adminURL });
+//   setFileInterceptor(adminFileInstance);
+//   return adminFileInstance;
+// };
 
 export const chatInstance = () => {
   const chatInstance = axios.create({ baseURL: chatURL });

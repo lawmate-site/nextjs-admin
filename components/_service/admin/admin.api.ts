@@ -5,9 +5,9 @@ import {
   ISendBulkMail,
   ISendMail,
 } from "@/components/_model/admin/admin";
-import { Date } from "@/components/_model/manage/manage";
+import { ILawyer } from "@/components/_model/lawyer/lawyer";
+
 import {
-  adminFileInstance,
   adminInstance,
   manageInstance,
 } from "@/components/config/axios-config";
@@ -193,13 +193,17 @@ export const allStatsOfLawyersApi = async () => {
 
 export const saveVisitsApi = async () => {
   try {
-    const response = await adminInstance().post(`/visit/save`);
+    const response = await adminInstance().post("/visit/save");
 
-    console.log("success");
-    return response.data;
+    // Handle the response based on your backend logic
+    // If the response contains the incremented count, access it here:
+    const incrementedCount = response.data; // Assuming it's in the response data
+
+    console.log("Visit count successfully incremented:", incrementedCount);
+    return incrementedCount; // Or return whatever data is relevant for your application
   } catch (error) {
-    console.log(error);
-    return error;
+    console.error("Error saving visits:", error);
+    throw error; // Re-throw for handling in your async thunk or component
   }
 };
 

@@ -1,105 +1,126 @@
 "use client";
 
+import { ILawyer } from "@/components/_model/lawyer/lawyer";
 import {
   getLawyerAuthFalseStats,
   getLawyerStatsAll,
   getLawyerTotalStats,
 } from "@/components/_service/admin/admin.service";
 import { useEffect, useState } from "react";
+import Chart from "react-google-charts";
 import { useDispatch } from "react-redux";
+
+export const options = {
+  allowHtml: true,
+  showRowNumber: true,
+};
 
 const LawyerGraph = (props: any) => {
   const dispatch = useDispatch();
-  const [visitors, setVisitors] = useState({
-    year: "2024",
-    month: "07",
-    day: "01",
+  const [totalLawyer, setTotalLawyer] = useState({
+    total: 0,
+    authFalse: 0,
+    authTrue: 0,
   });
-  const [month, setMonth] = useState(0);
-  const [visitorsData, setVisitorsData] = useState({});
-  const [last7Days, setLast7Days] = useState({});
-  const options = {
-    title: "Chart Title",
-    colors: ["gray"],
-  };
-  const [visitorCountToday, setVisitorCountToday] = useState(0);
+
+  const [authFalseLawyerList, setAuthFalseLawyerList] = useState([]);
+  const [lawyerStats, setLawyerStats] = useState({});
 
   useEffect(() => {
     return () => {
       try {
         dispatch(getLawyerTotalStats()).then((res: any) => {
-          console.log(res);
-          setMonth(res.payload);
+          setTotalLawyer({
+            total: res.payload?.totalLawyers,
+            authFalse: res.payload?.totalLawyersAuthFalse,
+            authTrue: res.payload?.totalLawyersAuthTrue,
+          });
         });
 
         dispatch(getLawyerAuthFalseStats()).then((res: any) => {
-          console.log(res);
-          const transformedData = Object.entries(res.payload).map(
-            ([day, visits]: any) => [
-              day,
-              parseInt(visits), // Ensure visits is a number
-            ]
-          );
+          const chartData = res.payload.map((lawyer: ILawyer) => [
+            lawyer.name,
+            lawyer.email,
+          ]);
 
-          // Sort the data by day in ascending order
-          transformedData.sort((a, b) => parseInt(a[0]) - parseInt(b[0]));
+          chartData.unshift(["이름", "이메일"]);
 
-          transformedData.unshift(["Day", "Visits"]); // Add header
-          setVisitorsData(transformedData);
+          setAuthFalseLawyerList(chartData);
         });
 
         dispatch(getLawyerStatsAll()).then((res: any) => {
-          console.log(res);
           const transformedData = Object.entries(res.payload).map(
-            ([day, visits]: any) => [
-              day,
-              parseInt(visits), // Ensure visits is a number
+            ([
+              date,
+              increaseRate,
+              newLawyerCount,
+              totalLawyers,
+              totalLawyersAuthFalse,
+              totalLawyersAuthTrue,
+            ]: any) => [
+              date,
+              parseInt(increaseRate),
+              parseInt(newLawyerCount),
+              parseInt(totalLawyers),
+              parseInt(totalLawyersAuthFalse),
+              parseInt(totalLawyersAuthTrue),
             ]
           );
-
-          // Sort the data by day in ascending order
           transformedData.sort((a, b) => parseInt(a[0]) - parseInt(b[0]));
 
-          transformedData.unshift(["Day", "Visits"]); // Add header
-          setLast7Days(transformedData);
+          transformedData.unshift([
+            "Date",
+            "IncreaseRate",
+            "NewLawyerCount",
+            "TotalLawyers",
+            "TotalLawyersAuthFalse",
+            "TotalLawyersAuthTrue",
+          ]); // Add header
+
+          setLawyerStats(transformedData);
         });
       } catch (error) {
         console.log(error);
       }
     };
-  }, [visitors]);
+  }, [dispatch]);
 
-  useEffect(() => {
-    return () => {
-      // try {
-      //   dispatch(getVisitorCountToday()).then((res: any) => {
-      //     setVisitorCountToday(res.payload);
-      //   });
-      //   dispatch(getLast7Days()).then((res: any) => {
-      //     const transformedData = Object.entries(res.payload).map(
-      //       ([day, visits]: any) => [
-      //         day,
-      //         parseInt(visits), // Ensure visits is a number
-      //       ]
-      //     );
-      //     // Sort the data by day in ascending order
-      //     transformedData.sort((a, b) => parseInt(a[0]) - parseInt(b[0]));
-      //     transformedData.unshift(["Day", "Visits"]); // Add header
-      //     setLast7Days(transformedData);
-      //   });
-      // } catch (error) {
-      //   console.log(error);
-      // }
-    };
-  }, []);
   return (
     <>
-      <div className="w-[1200px] h-80 border p-2">
+      <div className="w-[1200px] border p-2">
         <div className="border-b p-2 flex flex-row justify-between items-start">
           <p>변호사 통계</p>
           <div className="flex flex-col items-end gap-1">
-            <h1 className="text-xs">이번달: 0</h1>
-            <h1 className="text-xs">오늘: 0</h1>
+            <h1 className="text-xs">총 변호사 수: {totalLawyer.total || 0}</h1>
+            <h1 className="text-xs">
+              승인된 변호사 수: {totalLawyer.authTrue || 0}
+            </h1>
+            <h1 className="text-xs">
+              승인이 안된 변호사 수: {totalLawyer.authFalse || 0}
+            </h1>
+          </div>
+        </div>
+        <div className="flex flex-wrap gap-5 p-3">
+          <div className="flex flex-col p-5 border gap-3">
+            <h1 className=" text-lg">인증 실패 변호사 목록</h1>
+            <Chart
+              chartType="Table"
+              data={authFalseLawyerList}
+              width="100%"
+              height="400px"
+              options={{
+                ...options,
+                title: "인증 실패 변호사 목록",
+              }}
+            />
+          </div>
+          <div className="flex flex-col p-5 border gap-3">
+            <h1 className=" text-lg">변호사 전체 통계</h1>
+            <Chart
+              chartType="LineChart"
+              data={lawyerStats}
+              options={{ title: "변호사 전체 통계" }}
+            />
           </div>
         </div>
       </div>

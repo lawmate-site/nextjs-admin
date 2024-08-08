@@ -81,7 +81,7 @@ const VisitorWeekly = (props: any) => {
 
   return (
     <>
-      <div className="w-[800px] h-80 border p-2">
+      <div className="w-[1200px] border p-2">
         <div className="border-b p-2 flex flex-row justify-between items-start">
           <p>방문자 통계</p>
           <div className="flex flex-col items-end gap-1">
@@ -89,16 +89,16 @@ const VisitorWeekly = (props: any) => {
             <h1 className="text-xs">오늘: {visitorCountToday || 0}</h1>
           </div>
         </div>
-        <div className="p-5 flex flex-row gap-2">
-          <div className="w-96 gap-2 border">
-            <h1 className="text-lg w-200">월간</h1>
+        <div className="p-5 flex flex-col gap-2">
+          <div className="gap-2 border p-3 px-5">
+            <h1 className="text-lg">월간</h1>
             <Chart
               chartType="LineChart"
               data={visitorsData}
               options={options}
             />
           </div>
-          <div className="w-96 gap-2 border">
+          <div className="gap-2 border p-3 px-5">
             <h1 className="text-lg">7일간</h1>
             <Chart chartType="LineChart" data={last7Days} options={options} />
           </div>

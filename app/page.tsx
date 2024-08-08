@@ -24,7 +24,9 @@ export default function Home(props: any) {
 
   // useEffect(() => {
   //   return () => {
-  //     dispatch(saveVisits());
+  //     dispatch(saveVisits()).then((res: any) => {
+  //       console.log(res);
+  //     });
   //   };
   // }, []);
 
