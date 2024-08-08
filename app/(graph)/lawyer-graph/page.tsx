@@ -10,11 +10,16 @@ import { useEffect, useState } from "react";
 import Chart from "react-google-charts";
 import { useDispatch } from "react-redux";
 
-export const options = {
+interface ChartOptions {
+  allowHtml: boolean;
+  showRowNumber: boolean;
+  // Add other options you might use
+}
+
+const options: ChartOptions = {
   allowHtml: true,
   showRowNumber: true,
 };
-
 const LawyerGraph = (props: any) => {
   const dispatch = useDispatch();
   const [totalLawyer, setTotalLawyer] = useState({

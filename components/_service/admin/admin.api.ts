@@ -260,7 +260,7 @@ export const findAllApi = async () => {
 
 export const saveApi = async (formData: any) => {
   try {
-    const data = await adminFileInstance().post(`/board/save`, formData);
+    const data = await adminInstance().post(`/board/save`, formData);
     console.log("success");
     return data;
   } catch (error) {
