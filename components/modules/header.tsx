@@ -34,7 +34,7 @@ const Header = ({ isDropdownOpen, setIsDropdownOpen }: any) => {
 
   return (
     <>
-      {isLoggedIn || window.location.pathname === "/afterLogin" ? (
+      {window.location.pathname !== "/" ? (
         <nav
           className={`items-center fixed top-0 h-10 w-screen z-20 flex flex-row justify-between `}
         >

@@ -18,7 +18,19 @@ const UserGraph = (props: any) => {
     colors: ["gray"],
   };
 
-  const [user, setUser] = useState({});
+  const [year, setYear] = useState({});
+  const [month, setMonth] = useState({});
+  const [day, setDay] = useState({});
+
+  const monthOptions = {
+    title: "월별 신규 유저 수",
+    hAxis: {
+      title: "월",
+    },
+    vAxis: {
+      title: "신규 유저 수",
+    },
+  };
 
   useEffect(() => {
     return () => {
@@ -32,7 +44,9 @@ const UserGraph = (props: any) => {
           );
 
           // Sort the data by age in ascending order
-          transformedData.sort((a, b) => parseInt(a[0]) - parseInt(b[0]));
+          transformedData.sort(
+            (a, b) => parseInt(a[0].toString()) - parseInt(b[0].toString())
+          );
 
           transformedData.unshift(["Age", "Users"]); // Add header
           setUserData(transformedData);
@@ -40,53 +54,62 @@ const UserGraph = (props: any) => {
 
         dispatch(getUserMonthStates()).then((res: any) => {
           console.log(res);
-          const transformedData = Object.entries(res.payload).map(
-            ([day, visits]: any) => [
-              day,
-              parseInt(visits), // Ensure visits is a number
-            ]
-          );
-
-          // Sort the data by day in ascending order
-          transformedData.sort((a, b) => parseInt(a[0]) - parseInt(b[0]));
-
-          transformedData.unshift(["Day", "Visits"]); // Add header
+          const monthChartData = [
+            ["월", "증가율", "유저 수"],
+            ...res.payload?.map((data: any) => [
+              data.month,
+              data.increaseRate,
+              data.newUserCount,
+            ]),
+          ];
+          setMonth(monthChartData);
         });
 
         dispatch(getUserDateStats()).then((res: any) => {
           console.log(res);
           const transformedData = Object.entries(res.payload).map(
-            ([day, visits]: any) => [
-              day,
-              parseInt(visits), // Ensure visits is a number
+            ([date, increaseRate, newUserCount]: any) => [
+              date,
+              parseInt(increaseRate), // Ensure visits is a number
+              parseInt(newUserCount), // Ensure visits is a number
             ]
           );
 
           // Sort the data by day in ascending order
-          transformedData.sort((a, b) => parseInt(a[0]) - parseInt(b[0]));
+          transformedData.sort(
+            (a, b) => parseInt(a[0].toString()) - parseInt(b[0].toString())
+          );
 
-          transformedData.unshift(["Day", "Visits"]); // Add header
+          transformedData.unshift(["Date", "increaseRate", "newUserCount"]); // Add header
+          setDay(transformedData);
         });
 
         dispatch(getUserYearStats()).then((res: any) => {
           console.log(res);
           const transformedData = Object.entries(res.payload).map(
-            ([day, visits]: any) => [
-              day,
-              parseInt(visits), // Ensure visits is a number
+            ([year, increaseRateAverage, newUserCount]: any) => [
+              year,
+              parseInt(increaseRateAverage), // Ensure visits is a number
+              parseInt(newUserCount), // Ensure visits is a number
             ]
           );
 
           // Sort the data by day in ascending order
           transformedData.sort((a, b) => parseInt(a[0]) - parseInt(b[0]));
 
-          transformedData.unshift(["Day", "Visits"]); // Add header
+          transformedData.unshift([
+            "Year",
+            "increaseRateAverage",
+            "newUserCount",
+          ]); // Add header
+          setYear(transformedData);
         });
       } catch (error) {
         console.log(error);
       }
     };
-  }, []);
+  }, [dispatch]);
+
   return (
     <>
       <div className="w-[1200px] border p-2">
@@ -102,6 +125,9 @@ const UserGraph = (props: any) => {
           <div className="flex flex-col w-full p-5 border gap-3">
             <h1 className=" text-lg">총 사용자 통계</h1>
             <Chart chartType="LineChart" data={userData} options={options} />
+            <Chart chartType="LineChart" data={day} />
+            <Chart chartType="LineChart" data={month} options={monthOptions} />
+            <Chart chartType="LineChart" data={year} />
           </div>
         </div>
       </div>
