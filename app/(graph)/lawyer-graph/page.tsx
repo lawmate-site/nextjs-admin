@@ -54,32 +54,18 @@ const LawyerGraph = (props: any) => {
         });
 
         dispatch(getLawyerStatsAll()).then((res: any) => {
-          const transformedData = Object.entries(res.payload).map(
-            ([
-              date,
-              increaseRate,
-              newLawyerCount,
-              totalLawyers,
-              totalLawyersAuthFalse,
-              totalLawyersAuthTrue,
-            ]: any) => [
-              date,
-              parseInt(increaseRate),
-              parseInt(newLawyerCount),
-              parseInt(totalLawyers),
-              parseInt(totalLawyersAuthFalse),
-              parseInt(totalLawyersAuthTrue),
-            ]
-          );
-          transformedData.sort((a, b) => parseInt(a[0]) - parseInt(b[0]));
+          const transformedData = res.payload.map((data: any) => [
+            data.date,
+            parseInt(data.increaseRate),
+            parseInt(data.newLawyerCount),
+            parseInt(data.totalLawyersAuthFalse),
+          ]);
 
           transformedData.unshift([
             "Date",
             "IncreaseRate",
             "NewLawyerCount",
-            "TotalLawyers",
             "TotalLawyersAuthFalse",
-            "TotalLawyersAuthTrue",
           ]); // Add header
 
           setLawyerStats(transformedData);
@@ -111,16 +97,13 @@ const LawyerGraph = (props: any) => {
             <Chart
               chartType="Table"
               data={authFalseLawyerList}
-              width="100%"
-              height="400px"
               options={{
                 ...options,
                 title: "인증 실패 변호사 목록",
               }}
             />
           </div>
-          <div className="flex flex-col p-5 border gap-3">
-            <h1 className=" text-lg">변호사 전체 통계</h1>
+          <div className="flex flex-col w-9/12 p-5 border gap-3">
             <Chart
               chartType="LineChart"
               data={lawyerStats}

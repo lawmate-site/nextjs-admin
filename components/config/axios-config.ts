@@ -4,9 +4,16 @@ import {
   adminURL,
   chatURL,
   lawyerURL,
+  mainURL,
   manageURL,
   userURL,
 } from "../common/url";
+
+export const mainInstance = () => {
+  const userInstance = axios.create({ baseURL: mainURL });
+  setInterceptor(userInstance);
+  return userInstance;
+};
 
 export const userInstance = () => {
   const userInstance = axios.create({ baseURL: userURL });

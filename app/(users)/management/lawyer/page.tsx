@@ -1,6 +1,8 @@
 "use client";
 
 import { ILawyer } from "@/components/_model/lawyer/lawyer";
+import { findAll } from "@/components/_service/admin/admin.service";
+import { getAllLawyer } from "@/components/_service/lawyer/lawyer.service";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -30,25 +32,18 @@ const ManagementLawyerPage = () => {
   const lawyerPerPage = 10;
 
   const getNotifications = async (page: any) => {
-    // try {
-    //   const response = await dispatch(findAll(page, lawyerPerPage));
-    //   console.log(response);
-    //   if (response) setNotifications(response.payload);
-    // } catch (error) {
-    //   console.log(error);
-    // }
+    try {
+      const response = await dispatch(getAllLawyer());
+      console.log(response);
+      setLawyer(response.payload);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handleChange = () => {
-    console.log("before : ", isChecked);
     try {
       setIsChecked(!isChecked);
-      if (isChecked) {
-        console.log("after : ", isChecked);
-      } else {
-        // getEnabledNotification(currentPage);
-        console.log("after : ", isChecked);
-      }
     } catch (error) {
       console.log(error);
     }
@@ -56,7 +51,8 @@ const ManagementLawyerPage = () => {
 
   const handleCheck = async (id: any) => {
     console.log("id : ", id);
-    setLawyer([(lawyer[0] = { ...lawyer[0], auth: !lawyer[0].auth })]);
+    // const updatedLawyer = { ...lawyer[id], auth: !lawyer[id].auth };
+    // dispatch(updateLawyer(updatedLawyer));
     // setIsChecked(!isChecked); // Update checkbox state immediately
     try {
       // await dispatch(enableAdminById(id)).then(() => {
@@ -115,15 +111,13 @@ const ManagementLawyerPage = () => {
               <div className="w-32">createdDate</div>
               <div className="w-32">modifiedDate</div>
             </div>
-            {lawyer.map((item, key) => (
+            {lawyer?.map((item, key) => (
               <div
-                key={item.id}
+                key={key}
                 className="flex flex-col border-b border-black/30 group"
               >
                 <div className="flex flex-row gap-2 px-2 py-1 text-center">
-                  <div className="w-16 px-1">
-                    {(currentPage - 1) * lawyerPerPage + key + 1}
-                  </div>
+                  <div className="w-16 px-1">{key + 1}</div>
                   <div className="w-32 px-2 text-left truncate">
                     {item.email}
                   </div>
@@ -134,15 +128,13 @@ const ManagementLawyerPage = () => {
                   <div className="w-32 px-1">{item.account}</div>
                   <div className="w-24 px-1">{item.mid}</div>
                   <div className="w-24 px-1 flex items-center justify-center">
-                    {!item.auth && (
-                      <div className="w-16 px-1">
-                        <input
-                          type="checkbox"
-                          defaultChecked={item.auth}
-                          onChange={(e: any) => handleCheck(item.auth)}
-                        />
-                      </div>
-                    )}
+                    <div className="w-16 px-1">
+                      <input
+                        type="checkbox"
+                        checked={item.auth}
+                        onChange={(e: any) => handleCheck(item.auth)}
+                      />
+                    </div>
                   </div>
                   <div className="w-32 px-1">{item.createdDate}</div>
                   <div className="w-32 px-1">{item.modifiedDate}</div>

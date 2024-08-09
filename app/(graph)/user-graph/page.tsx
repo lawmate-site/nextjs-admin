@@ -18,6 +18,12 @@ const UserGraph = (props: any) => {
     colors: ["gray"],
   };
 
+  const [user, setUser] = useState({
+    total: "",
+    female: "",
+    male: "",
+  });
+
   const [year, setYear] = useState({});
   const [month, setMonth] = useState({});
   const [day, setDay] = useState({});
@@ -36,66 +42,58 @@ const UserGraph = (props: any) => {
     return () => {
       try {
         dispatch(getUserTotalStats()).then((res: any) => {
-          const transformedData = Object.entries(res.payload).map(
-            ([age, users]: any) => [
-              age,
-              parseInt(users), // Ensure visits is a number
-            ]
-          );
+          const { total, female, male, ...rest } = res.payload; // 나머지 데이터를 rest에 저장
 
-          // Sort the data by age in ascending order
-          transformedData.sort(
-            (a, b) => parseInt(a[0].toString()) - parseInt(b[0].toString())
-          );
+          // 나머지 데이터를 나이대 순으로 정렬
+          const sortedData = Object.entries(rest)
+            .map(([age, users]: any) => [age, parseInt(users)])
+            .sort((a, b) => {
+              const ageA = a[0].replace(/\D/g, ""); // 숫자만 추출
+              const ageB = b[0].replace(/\D/g, "");
+              if (a[0].startsWith("20대 미만")) return -1; // 20대 미만은 항상 앞으로
+              if (b[0].startsWith("20대 미만")) return 1;
+              return parseInt(ageA) - parseInt(ageB);
+            });
+          // 데이터에 헤더 추가
+          sortedData.unshift(["Age", "Users"]);
 
-          transformedData.unshift(["Age", "Users"]); // Add header
-          setUserData(transformedData);
+          // user, setUser 상태 업데이트
+          setUser({ total, female, male });
+          setUserData(sortedData);
         });
 
         dispatch(getUserMonthStates()).then((res: any) => {
-          console.log(res);
-          const monthChartData = [
-            ["월", "증가율", "유저 수"],
-            ...res.payload?.map((data: any) => [
-              data.month,
-              data.increaseRate,
-              data.newUserCount,
-            ]),
-          ];
-          setMonth(monthChartData);
+          const transformedData = res.payload.map((data: any) => [
+            parseInt(data.month),
+            parseInt(data.increaseRateAverage),
+            parseInt(data.newUserCount),
+          ]);
+
+          transformedData.unshift([
+            "Month",
+            "increaseRateAverage",
+            "newUserCount",
+          ]); // Add header
+          setMonth(transformedData);
         });
 
         dispatch(getUserDateStats()).then((res: any) => {
-          console.log(res);
-          const transformedData = Object.entries(res.payload).map(
-            ([date, increaseRate, newUserCount]: any) => [
-              date,
-              parseInt(increaseRate), // Ensure visits is a number
-              parseInt(newUserCount), // Ensure visits is a number
-            ]
-          );
-
-          // Sort the data by day in ascending order
-          transformedData.sort(
-            (a, b) => parseInt(a[0].toString()) - parseInt(b[0].toString())
-          );
+          const transformedData = res.payload.map((data: any) => [
+            data.date,
+            parseInt(data.increaseRate),
+            parseInt(data.newUserCount),
+          ]);
 
           transformedData.unshift(["Date", "increaseRate", "newUserCount"]); // Add header
           setDay(transformedData);
         });
 
         dispatch(getUserYearStats()).then((res: any) => {
-          console.log(res);
-          const transformedData = Object.entries(res.payload).map(
-            ([year, increaseRateAverage, newUserCount]: any) => [
-              year,
-              parseInt(increaseRateAverage), // Ensure visits is a number
-              parseInt(newUserCount), // Ensure visits is a number
-            ]
-          );
-
-          // Sort the data by day in ascending order
-          transformedData.sort((a, b) => parseInt(a[0]) - parseInt(b[0]));
+          const transformedData = res.payload.map((data: any) => [
+            parseInt(data.year),
+            parseInt(data.increaseRateAverage),
+            parseInt(data.newUserCount),
+          ]);
 
           transformedData.unshift([
             "Year",
@@ -116,18 +114,48 @@ const UserGraph = (props: any) => {
         <div className="border-b p-2 flex flex-row justify-between items-start">
           <p>유저 통계</p>
           <div className="flex flex-col items-end gap-1">
-            <h1 className="text-xs">이번 연도: 0</h1>
-            <h1 className="text-xs">이번 달: 0</h1>
-            <h1 className="text-xs">오늘: 0</h1>
+            <h1 className="text-xs">통합: {user.total || 0}</h1>
+            <h1 className="text-xs">여자: {user.female || 0}</h1>
+            <h1 className="text-xs">남자: {user.male || 0}</h1>
           </div>
         </div>
         <div className="flex flex-wrap gap-5 p-3">
           <div className="flex flex-col w-full p-5 border gap-3">
-            <h1 className=" text-lg">총 사용자 통계</h1>
-            <Chart chartType="LineChart" data={userData} options={options} />
-            <Chart chartType="LineChart" data={day} />
-            <Chart chartType="LineChart" data={month} options={monthOptions} />
-            <Chart chartType="LineChart" data={year} />
+            <Chart
+              chartType="LineChart"
+              data={userData}
+              options={{ ...options, title: "총 사용자 통계" }}
+            />
+          </div>
+          <div className="flex flex-col w-full p-5 border gap-3">
+            <Chart
+              chartType="LineChart"
+              data={day}
+              options={{
+                title: "일 별 통계",
+                hAxis: { format: "0" },
+              }}
+            />
+          </div>
+          <div className="flex flex-col w-full p-5 border gap-3">
+            <Chart
+              chartType="LineChart"
+              data={month}
+              options={{
+                title: "월 별 통계",
+                hAxis: { format: "0" },
+              }}
+            />
+          </div>
+          <div className="flex flex-col w-full p-5 border gap-3">
+            <Chart
+              chartType="LineChart"
+              data={year}
+              options={{
+                title: "연도 별 통계",
+                hAxis: { format: "0" },
+              }}
+            />
           </div>
         </div>
       </div>

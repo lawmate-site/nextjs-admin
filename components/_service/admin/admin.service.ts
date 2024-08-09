@@ -3,6 +3,7 @@ import {
   adminSaveApi,
   allStatsOfLawyersApi,
   authLoginApi,
+  authLogoutApi,
   countEnabledAdminApi,
   deleteAdminApi,
   enableAdminByIdApi,
@@ -10,6 +11,7 @@ import {
   findAllApi,
   getAdminByIdApi,
   getAllAdminApi,
+  getAllInquiryListApi,
   getLast7DaysApi,
   getLawyerAuthFalseStatsApi,
   getLawyerStatsAllApi,
@@ -43,6 +45,14 @@ export const authLogin: any = createAsyncThunk(
   "admin/authLogin",
   async (admin: IAdmin) => {
     const data: any = await authLoginApi(admin);
+    return data;
+  }
+);
+
+export const authLogout: any = createAsyncThunk(
+  "admin/authLogout",
+  async (refreshToken: string) => {
+    const data: any = await authLogoutApi(refreshToken);
     return data;
   }
 );
@@ -299,6 +309,14 @@ export const getUserYearStats: any = createAsyncThunk(
   "admin/getUserYearStats",
   async () => {
     const data: any = await getUserYearStatsApi();
+    return data;
+  }
+);
+
+export const getAllInquiryList: any = createAsyncThunk(
+  "admin/getAllInquiryList",
+  async () => {
+    const data: any = await getAllInquiryListApi();
     return data;
   }
 );

@@ -1,6 +1,9 @@
 "use client";
 
-import { findAll } from "@/components/_service/admin/admin.service";
+import {
+  findAll,
+  getAllInquiryList,
+} from "@/components/_service/admin/admin.service";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -24,13 +27,15 @@ const InquiryBoardPage = () => {
   const notificationsPerPage = 10;
 
   const getNotifications = async (page: any) => {
-    // try {
-    //   const response = await dispatch(findAll(page, notificationsPerPage));
-    //   console.log(response);
-    //   if (response) setNotifications(response.payload);
-    // } catch (error) {
-    //   console.log(error);
-    // }
+    try {
+      const response = await dispatch(
+        getAllInquiryList(page, notificationsPerPage)
+      );
+      console.log(response);
+      if (response) setNotifications(response.payload);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   useEffect(() => {
@@ -75,33 +80,37 @@ const InquiryBoardPage = () => {
           ))}
         </div>
         <div className="flex flex-row justify-center pt-10">
-          <button
-            onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-            disabled={currentPage === 1}
-            className="px-4 py-2 mx-1 border border-gray-300 rounded"
-          >
-            이전
-          </button>
-          {Array.from({ length: totalPages }, (_, i) => (
-            <button
-              key={i + 1}
-              onClick={() => setCurrentPage(i + 1)}
-              className={`px-4 py-2 mx-1 border ${
-                currentPage === i + 1 ? "border-black" : "border-gray-300"
-              } rounded`}
-            >
-              {i + 1}
-            </button>
-          ))}
-          <button
-            onClick={() =>
-              setCurrentPage((prev) => Math.min(prev + 1, totalPages))
-            }
-            disabled={currentPage === totalPages}
-            className="px-4 py-2 mx-1 border border-gray-300 rounded"
-          >
-            다음
-          </button>
+          {totalPages !== 0 && (
+            <>
+              <button
+                onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+                disabled={currentPage === 1}
+                className="px-4 py-2 mx-1 border border-gray-300 rounded"
+              >
+                이전
+              </button>
+              {Array.from({ length: totalPages }, (_, i) => (
+                <button
+                  key={i + 1}
+                  onClick={() => setCurrentPage(i + 1)}
+                  className={`px-4 py-2 mx-1 border ${
+                    currentPage === i + 1 ? "border-black" : "border-gray-300"
+                  } rounded`}
+                >
+                  {i + 1}
+                </button>
+              ))}
+              <button
+                onClick={() =>
+                  setCurrentPage((prev) => Math.min(prev + 1, totalPages))
+                }
+                disabled={currentPage === totalPages}
+                className="px-4 py-2 mx-1 border border-gray-300 rounded"
+              >
+                다음
+              </button>
+            </>
+          )}
         </div>
       </div>
     </>

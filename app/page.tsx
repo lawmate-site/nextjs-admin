@@ -8,6 +8,7 @@ import { saveVisits } from "@/components/_service/admin/admin.service";
 import ChatList from "../components/common/chat/ChatList";
 import BeforeLoginedPage from "./(main)/page.beforelogin";
 import AfterLoginedPage from "./(main)/afterLogin/page";
+import { parseCookies } from "nookies";
 
 const lawyers = [
   { id: "lawyer1", name: "Lawyer 1" },
@@ -30,11 +31,20 @@ export default function Home(props: any) {
   //   };
   // }, []);
 
+  const token = parseCookies().accessToken;
+
+  useEffect(() => {
+    console.log(token);
+    if (token !== undefined) {
+      setIsLoginned(true);
+    } else {
+      setIsLoginned(false);
+    }
+  });
+
   return (
     <>
-      <div
-        className={`flex flex-col justify-center items-center h-screen relative`}
-      >
+      <div className={`flex flex-col justify-center items-center relative`}>
         {isLoginned ? (
           <>
             <AfterLoginedPage />

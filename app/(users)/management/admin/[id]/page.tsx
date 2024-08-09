@@ -1,7 +1,7 @@
 "use client";
 
-import { IAdminBoard } from "@/components/_model/admin/admin";
-import axios from "axios";
+import { ISendMail } from "@/components/_model/admin/admin";
+import { sendMail } from "@/components/_service/admin/admin.service";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
@@ -13,39 +13,20 @@ const NorificationAddPage = (props: any) => {
 
   const [selectedFile, setSelectedFile] = useState<File[]>([]);
   const [selectBoard, setSelectBoard] = useState({
-    title: "",
-    content: "",
-    writer: "작성자1",
-  } as IAdminBoard);
+    to: email,
+    subject: "",
+    text: "",
+  } as ISendMail);
 
   const submit = async () => {
     const formData = new FormData();
 
     formData.append("boardDto", JSON.stringify(selectBoard));
 
-    if (selectedFile.length == 0) {
-      alert("파일을 선택해주세요.");
-      return 0;
-    }
-
-    Array.from(selectedFile).forEach((file: File) => {
-      formData.append("files", file);
-    });
-
     try {
-      const response = await axios.post(
-        "http://localhost:8082/board/save",
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
-      if (response.status === 200) {
-        alert("파일이 성공적으로 등록되었습니다.");
-        router.push("/notification");
-      }
+      await dispatch(sendMail()).then((res: any) => {
+        console.log(res);
+      });
     } catch (error) {
       console.log(error);
     }
@@ -67,7 +48,7 @@ const NorificationAddPage = (props: any) => {
               onChange={(event: any) =>
                 setSelectBoard({
                   ...selectBoard,
-                  title: event.target.value,
+                  subject: event.target.value,
                 })
               }
             />
@@ -82,7 +63,7 @@ const NorificationAddPage = (props: any) => {
               onChange={(event: any) =>
                 setSelectBoard({
                   ...selectBoard,
-                  title: event.target.value,
+                  to: event.target.value,
                 })
               }
             />
@@ -92,19 +73,10 @@ const NorificationAddPage = (props: any) => {
             onChange={(event: any) =>
               setSelectBoard({
                 ...selectBoard,
-                content: event.target.value,
+                text: event.target.value,
               })
             }
           ></textarea>
-          <input
-            type="file"
-            className="mt-4"
-            onChange={(event: any) => {
-              const files = event.target.files;
-              setSelectedFile(Array.from(files));
-            }}
-            multiple
-          />
           <input
             type="submit"
             value="제출하기"

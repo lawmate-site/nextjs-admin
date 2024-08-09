@@ -5,16 +5,28 @@ import {
   ISendBulkMail,
   ISendMail,
 } from "@/components/_model/admin/admin";
-import { ILawyer } from "@/components/_model/lawyer/lawyer";
 
 import {
   adminInstance,
+  mainInstance,
   manageInstance,
 } from "@/components/config/axios-config";
 
 export const authLoginApi = async (admin: IAdmin) => {
   try {
-    const response = await adminInstance().post("/auth/login", admin);
+    const response = await mainInstance().post("/auth/admin/login", admin);
+
+    console.log("success");
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    return error;
+  }
+};
+
+export const authLogoutApi = async (refreshToken: string) => {
+  try {
+    const response = await mainInstance().post("/auth/logout");
 
     console.log("success");
     return response.data;
@@ -349,6 +361,17 @@ export const getUserDateStatsApi = async () => {
 export const getUserYearStatsApi = async () => {
   try {
     const response = await manageInstance().get(`/user/stats/year`);
+    console.log("success");
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    return error;
+  }
+};
+
+export const getAllInquiryListApi = async () => {
+  try {
+    const response = await adminInstance().get(`/inquiry/all`);
     console.log("success");
     return response.data;
   } catch (error) {

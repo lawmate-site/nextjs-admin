@@ -4,19 +4,26 @@ import { useState, useEffect } from "react";
 import { iconsCSS, rounded } from "../common/icons";
 import { useDispatch } from "react-redux";
 import { useRouter } from "next/navigation";
-import { getAccessToken } from "./cookies";
 import Image from "next/image";
 import MenuPage from "@/app/menues/page";
+import { parseCookies } from "nookies";
 
 const Header = ({ isDropdownOpen, setIsDropdownOpen }: any) => {
   const dispatch = useDispatch();
   const router = useRouter();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const cookies = parseCookies().accessToken;
 
   const checkAuthentication: any = async () => {
-    const accessToken: any = await getAccessToken();
-    setIsLoggedIn(!!accessToken);
-    return accessToken;
+    // const accessToken: any = await getAccessToken();
+    // setIsLoggedIn(!!cookies);
+    if (cookies !== undefined) {
+      setIsLoggedIn(true);
+    } else {
+      setIsLoggedIn(false);
+    }
+    console.log(cookies);
+    return cookies;
   };
 
   const handleMenu = () => {
@@ -26,15 +33,13 @@ const Header = ({ isDropdownOpen, setIsDropdownOpen }: any) => {
     });
   };
 
-  const handleLogOut = () => {};
-
   useEffect(() => {
     checkAuthentication();
   }, [isLoggedIn]);
 
   return (
     <>
-      {window.location.pathname !== "/" ? (
+      {isLoggedIn ? (
         <nav
           className={`items-center fixed top-0 h-10 w-screen z-20 flex flex-row justify-between `}
         >

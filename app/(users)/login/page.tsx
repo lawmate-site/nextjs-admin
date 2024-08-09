@@ -1,14 +1,11 @@
 "use client";
 
-import { getAccessToken } from "@/components/modules/cookies";
-import { get } from "http";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { IAdmin } from "@/components/_model/admin/admin";
 import { useForm } from "react-hook-form";
 import { authLogin } from "@/components/_service/admin/admin.service";
+import { setCookie } from "nookies";
 
 const Login = () => {
   const router = useRouter();
@@ -25,10 +22,18 @@ const Login = () => {
   const onSubmit = async (data: IAdmin) => {
     console.log("입력된 값 : " + JSON.stringify(data));
     try {
-      await dispatch(authLogin(data))
+      await dispatch(authLogin(JSON.stringify(data)))
         .then((res: any) => {
           alert("success to Login");
           console.log(res);
+          setCookie({}, "accessToken", res.payload.accessToken, {
+            httpOnly: false,
+            path: "/",
+          });
+          setCookie({}, "refreshToken", res.payload.refreshToken, {
+            httpOnly: false,
+            path: "/",
+          });
         })
         .then(() => {
           router.push("/");

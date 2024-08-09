@@ -1,10 +1,11 @@
 "use client";
 
+import { authLogout } from "@/components/_service/admin/admin.service";
 import "animate.css";
 import { jwtDecode } from "jwt-decode";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { parseCookies } from "nookies";
+import { destroyCookie, parseCookies } from "nookies";
 import { title } from "process";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
@@ -16,6 +17,7 @@ const MenuPage = (props: any) => {
   const [animate, setAnimate] = useState(
     "animate__animated animate__fadeInLeft"
   );
+  const refreshToken = parseCookies().refreshToken;
 
   const MenuAfterLogin = [
     {
@@ -36,6 +38,7 @@ const MenuPage = (props: any) => {
           title: "건의사항",
           path: "/inquiry",
           icon: "https://img.icons8.com/?size=100&id=646&format=png&color=000000",
+          onclick: "",
         },
       ],
     },
@@ -50,23 +53,49 @@ const MenuPage = (props: any) => {
           title: "변호사",
           path: "/management/lawyer",
           icon: "https://img.icons8.com/?size=100&id=vJChIOXZSi8F&format=png&color=000000",
+          onclick: "",
         },
         {
           key: 3.2,
           title: "사용자",
           path: "/management/user",
           icon: "https://img.icons8.com/?size=100&id=85167&format=png&color=000000",
+          onclick: "",
         },
         {
           key: 3.3,
           title: "관리자",
           path: "/management/admin",
           icon: "https://img.icons8.com/?size=100&id=100521&format=png&color=000000",
+          onclick: "",
+        },
+      ],
+    },
+    {
+      key: "4",
+      title: "User",
+      icon: "https://img.icons8.com/?size=100&id=98957&format=png&color=000000",
+      router: "",
+      children: [
+        {
+          key: 4.1,
+          title: "로그아웃",
+          path: "",
+          icon: "https://img.icons8.com/?size=100&id=42374&format=png&color=000000",
+          onclick: "logout",
         },
       ],
     },
   ];
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  const handleLogOut = () => {
+    console.log({ refreshToken });
+    dispatch(authLogout(refreshToken)).then((res: any) => {
+      console.log(res);
+      destroyCookie({}, "accessToken");
+      destroyCookie({}, "refreshToken");
+    });
+  };
 
   useEffect(() => {
     if (props.menu === true) {
@@ -102,6 +131,9 @@ const MenuPage = (props: any) => {
                         <div
                           key={child.key}
                           onClick={() => {
+                            if (child.onclick === "logout") {
+                              handleLogOut();
+                            }
                             router.push(child.path);
                           }}
                           className="flex flex-row justify-between items-center w-full px-2 group"

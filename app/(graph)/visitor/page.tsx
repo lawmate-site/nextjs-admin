@@ -91,16 +91,18 @@ const VisitorWeekly = (props: any) => {
         </div>
         <div className="p-5 flex flex-col gap-2">
           <div className="gap-2 border p-3 px-5">
-            <h1 className="text-lg">월간</h1>
             <Chart
               chartType="LineChart"
               data={visitorsData}
-              options={options}
+              options={{ ...options, title: "월간 통계" }}
             />
           </div>
           <div className="gap-2 border p-3 px-5">
-            <h1 className="text-lg">7일간</h1>
-            <Chart chartType="LineChart" data={last7Days} options={options} />
+            <Chart
+              chartType="LineChart"
+              data={last7Days}
+              options={{ ...options, title: "7일간 통계" }}
+            />
           </div>
         </div>
       </div>

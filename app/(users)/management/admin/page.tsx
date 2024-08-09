@@ -1,7 +1,6 @@
 "use client";
 
 import { IAdmin } from "@/components/_model/admin/admin";
-import { ILawyer } from "@/components/_model/lawyer/lawyer";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
@@ -15,74 +14,66 @@ import Image from "next/image";
 const ManagementAdminPage = () => {
   const router = useRouter();
   const dispatch = useDispatch();
-  const [notifications, setNotifications] = useState([{} as IAdmin]);
+  const [admin, setAdmin] = useState([{} as IAdmin]);
 
   const notificationsPerPage = 10;
   const [isChecked, setIsChecked] = useState(true);
-  const [admin, setAdmin] = useState<IAdmin[]>([
-    {
-      id: 0,
-      email: "1234@naver.com",
-      password: "",
-      role: "",
-      name: "",
-      enabled: false,
-    },
-  ]);
   const [currentPage, setCurrentPage] = useState(1);
   const adminPerPage = 10;
 
   const handleCheck = async (id: any) => {
     console.log("id : ", id);
     setAdmin([(admin[0] = { ...admin[0], enabled: !admin[0].enabled })]);
-    // setIsChecked(!isChecked); // Update checkbox state immediately
+    setIsChecked(!isChecked); // Update checkbox state immediately
     try {
-      // await dispatch(enableAdminById(id)).then(() => {
-      //   window.location.reload();
-      // });
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const getNotifications = async (page: any) => {
-    try {
-      // await dispatch(getAllAdmin()).then((res: any) => {
-      //   if (res) setNotifications(res.payload);
-      // });
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const handleChange = () => {
-    console.log("before : ", isChecked);
-    try {
-      setIsChecked(!isChecked);
-      if (isChecked) {
-        console.log("after : ", isChecked);
-      } else {
-        // getEnabledNotification(currentPage);
-        console.log("after : ", isChecked);
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const getEnabledNotification = async (page: any) => {
-    try {
-      await dispatch(enabledAdmin()).then((res: any) => {
-        if (res) setNotifications(res.payload);
+      await dispatch(enableAdminById(id)).then(() => {
+        window.location.reload();
       });
     } catch (error) {
       console.log(error);
     }
   };
 
+  const getALlAdmins = async (page: any) => {
+    try {
+      await dispatch(getAllAdmin(page, notificationsPerPage)).then(
+        (res: any) => {
+          console.log(res);
+          if (res) setAdmin(res.payload);
+        }
+      );
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleChange = () => {
+    try {
+      setIsChecked(!isChecked);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const getEnabledAdmin = async (page: any) => {
+    try {
+      await dispatch(enabledAdmin(page, notificationsPerPage)).then(
+        (res: any) => {
+          if (res) setAdmin(res.payload);
+        }
+      );
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
-    getNotifications(currentPage);
-  }, [currentPage]);
+    if (!isChecked) {
+      getEnabledAdmin(currentPage);
+    } else {
+      getALlAdmins(currentPage);
+    }
+  }, [currentPage, isChecked]);
 
   const totalPages = Math.ceil(admin.length / adminPerPage);
   return (
@@ -104,7 +95,7 @@ const ManagementAdminPage = () => {
           </div>
           <div>
             <div className="w-20 ml-20 flex flex-row gap-5">
-              <p>enabled</p>
+              <p>unabled</p>
               <input
                 type="checkbox"
                 checked={!isChecked}
@@ -124,7 +115,7 @@ const ManagementAdminPage = () => {
           </div>
           {admin.map((item, key) => (
             <div
-              key={item.id}
+              key={key}
               className="flex flex-col border-b border-black/30 group"
             >
               <div className="flex flex-row gap-2 px-2 py-1 text-center">
@@ -135,34 +126,30 @@ const ManagementAdminPage = () => {
                 <div className="w-32 px-1">{item.name}</div>
                 <div className="w-32 px-1">{item.role}</div>
                 <div className="w-32 px-1 flex items-center justify-center">
-                  {!item.enabled && (
-                    <div className="w-16 px-1">
-                      <input
-                        type="checkbox"
-                        defaultChecked={item.enabled}
-                        onChange={(e: any) => handleCheck(item.enabled)}
-                      />
-                    </div>
-                  )}
+                  <div className="w-16 px-1">
+                    <input
+                      type="checkbox"
+                      checked={item.enabled}
+                      onChange={(e: any) => handleCheck(item.enabled)}
+                    />
+                  </div>
                 </div>
                 <div className="w-32 px-1 flex items-center justify-center">
-                  {
-                    <div className="px-1">
-                      <Image
-                        width={20}
-                        height={20}
-                        src={
-                          "https://img.icons8.com/?size=100&id=7874&format=png&color=000000"
-                        }
-                        onClick={() =>
-                          router.push(`/management/admin/${item.email}`)
-                        }
-                        style={{ width: 20, height: 20 }}
-                        alt={"sendMail"}
-                        className="cursor-pointer"
-                      />
-                    </div>
-                  }
+                  <div className="px-1">
+                    <Image
+                      width={20}
+                      height={20}
+                      src={
+                        "https://img.icons8.com/?size=100&id=7874&format=png&color=000000"
+                      }
+                      onClick={() =>
+                        router.push(`/management/admin/${item.email}`)
+                      }
+                      style={{ width: 20, height: 20 }}
+                      alt={"sendMail"}
+                      className="cursor-pointer"
+                    />
+                  </div>
                 </div>
               </div>
             </div>

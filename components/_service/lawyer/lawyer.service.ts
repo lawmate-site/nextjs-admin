@@ -1,5 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import {
+  getAllLawyerApi,
   lawyerJoinApi,
   lawyerLoginApi,
   lawyerLogoutApi,
@@ -35,6 +36,15 @@ export const lawyerSaveDetail: any = createAsyncThunk(
   "lawyer/getCaseLawList",
   async (lawyer: ILawyerDetail) => {
     const data: any = await lawyerSaveDetailApi(lawyer);
+    return data;
+  }
+);
+
+export const getAllLawyer: any = createAsyncThunk(
+  "lawyer/getAllLawyer",
+  async () => {
+    const data: any = await getAllLawyerApi();
+
     return data;
   }
 );

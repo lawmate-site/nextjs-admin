@@ -1,6 +1,7 @@
 "use client";
 
 import { IUser } from "@/components/_model/user/user";
+import { findAllUser } from "@/components/_service/user/user.service";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -34,13 +35,13 @@ const ManagementUserPage = () => {
   const lawyerPerPage = 10;
 
   const getNotifications = async (page: any) => {
-    // try {
-    //   const response = await dispatch(findAll(page, lawyerPerPage));
-    //   console.log(response);
-    //   if (response) setNotifications(response.payload);
-    // } catch (error) {
-    //   console.log(error);
-    // }
+    try {
+      const response = await dispatch(findAllUser(page, lawyerPerPage));
+      console.log(response);
+      setUser(response.payload);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handleChange = () => {
@@ -90,37 +91,31 @@ const ManagementUserPage = () => {
             <div className="w-32">이메일</div>
             <div className="w-32">이름</div>
             <div className="w-32">전화번호</div>
-            <div className="w-24">role</div>
             <div className="w-32">age</div>
             <div className="w-24">gender</div>
             <div className="w-24">regDate</div>
             <div className="w-32">modDate</div>
             <div className="w-32">point</div>
-            <div className="w-32">roles</div>
             <div className="w-32">registration</div>
           </div>
-          {user.map((item: any, key: any) => (
+          {user?.map((item: any, key) => (
             <div
-              key={item.id}
+              key={key}
               className="flex flex-col border-b border-black/30 group"
               onClick={() => {
                 router.push(`/inquiry/${item.id}`);
               }}
             >
               <div className="flex flex-row gap-2 px-2 py-1 text-center">
-                <div className="w-16 px-1">
-                  {(currentPage - 1) * lawyerPerPage + key + 1}
-                </div>
+                <div className="w-16 px-1">{key + 1}</div>
                 <div className="w-32 px-2 text-left truncate">{item.email}</div>
                 <div className="w-32 px-1">{item.name}</div>
                 <div className="w-32 px-1">{item.phone}</div>
-                <div className="w-24 px-1">{item.role[0]}</div>
                 <div className="w-32 px-1">{item.age}</div>
                 <div className="w-24 px-1">{item.gender}</div>
                 <div className="w-24 px-1">{item.regDate}</div>
                 <div className="w-32 px-1">{item.modDate}</div>
                 <div className="w-32 px-1">{item.point}</div>
-                <div className="w-32 px-1">{item.roles[0]}</div>
                 <div className="w-32 px-1">{item.registration}</div>
               </div>
             </div>
