@@ -23,13 +23,13 @@ export default function Home(props: any) {
 
   const [isLoginned, setIsLoginned] = useState(false);
 
-  // useEffect(() => {
-  //   return () => {
-  //     dispatch(saveVisits()).then((res: any) => {
-  //       console.log(res);
-  //     });
-  //   };
-  // }, []);
+  useEffect(() => {
+    return () => {
+      dispatch(saveVisits()).then((res: any) => {
+        console.log(res);
+      });
+    };
+  }, []);
 
   const token = parseCookies().accessToken;
 

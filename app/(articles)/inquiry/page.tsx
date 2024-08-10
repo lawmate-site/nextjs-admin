@@ -59,10 +59,10 @@ const InquiryBoardPage = () => {
           </div>
           {notifications.map((item, key) => (
             <div
-              key={item.id}
+              key={item?.id}
               className="flex flex-col border-b border-black/30 group"
               onClick={() => {
-                router.push(`/inquiry/${item.id}`);
+                router.push(`/inquiry/${item?.id}`);
               }}
             >
               <div className="flex flex-row gap-2 px-2 py-1 text-center">
@@ -73,7 +73,7 @@ const InquiryBoardPage = () => {
                 <div className="w-32 px-1 truncate">{item.writer}</div>
                 <div className="w-32 px-1">{item.date}</div>
                 <div className="w-24 px-1">
-                  {item.answer.length > 0 ? "true" : "false"}
+                  {item.answer?.length > 0 ? "true" : "false"}
                 </div>
               </div>
             </div>

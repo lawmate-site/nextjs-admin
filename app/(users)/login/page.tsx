@@ -36,7 +36,7 @@ const Login = () => {
           });
         })
         .then(() => {
-          router.push("/");
+          window.location.replace("/");
         })
         .catch((error: any) => {
           console.log(error);

@@ -94,6 +94,7 @@ const MenuPage = (props: any) => {
       console.log(res);
       destroyCookie({}, "accessToken");
       destroyCookie({}, "refreshToken");
+      window.location.replace("/");
     });
   };
 
