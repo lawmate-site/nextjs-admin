@@ -1,10 +1,6 @@
 "use client";
 
-import {
-  findAll,
-  getAllInquiryList,
-} from "@/components/_service/admin/admin.service";
-import Image from "next/image";
+import { getAllInquiryList } from "@/components/_service/admin/admin.service";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";

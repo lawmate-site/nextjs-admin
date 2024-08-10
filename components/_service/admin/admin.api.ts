@@ -379,3 +379,25 @@ export const getAllInquiryListApi = async () => {
     return error;
   }
 };
+
+export const getInquiryByIdApi = async (id: string) => {
+  try {
+    const response = await adminInstance().get(`/inquiry/${id}`);
+    console.log("success");
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    return error;
+  }
+};
+
+export const sendInquiryApi = async () => {
+  try {
+    const response = await adminInstance().get(`/inquiry/send`);
+    console.log("success");
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    return error;
+  }
+};

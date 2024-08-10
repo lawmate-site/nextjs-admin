@@ -12,6 +12,7 @@ import {
   getAdminByIdApi,
   getAllAdminApi,
   getAllInquiryListApi,
+  getInquiryByIdApi,
   getLast7DaysApi,
   getLawyerAuthFalseStatsApi,
   getLawyerStatsAllApi,
@@ -27,6 +28,7 @@ import {
   saveVisitsApi,
   searchAdminApi,
   sendBulkMailApi,
+  sendInquiryApi,
   sendMailApi,
   totalStatsOfLawyerApi,
   updateAdminApi,
@@ -317,6 +319,22 @@ export const getAllInquiryList: any = createAsyncThunk(
   "admin/getAllInquiryList",
   async () => {
     const data: any = await getAllInquiryListApi();
+    return data;
+  }
+);
+
+export const getInquiryById: any = createAsyncThunk(
+  "admin/getInquiryById",
+  async (id: string) => {
+    const data: any = await getInquiryByIdApi(id);
+    return data;
+  }
+);
+
+export const sendInquiry: any = createAsyncThunk(
+  "admin/sendInquiry",
+  async () => {
+    const data: any = await sendInquiryApi();
     return data;
   }
 );

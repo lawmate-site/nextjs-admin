@@ -1,52 +1,51 @@
 "use client";
 
+import {
+  getInquiryById,
+  sendInquiry,
+} from "@/components/_service/admin/admin.service";
 import { NextPage } from "next";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 
-const InquiryAnswerPage: NextPage = () => {
+const InquiryAnswerPage: NextPage = (props: any) => {
   const router = useRouter();
   const dispatch = useDispatch();
-
   const [selectBoard, setSelectBoard] = useState({
-    title: "건의사항1건의사항1건의사항1건의사항1건의사항1건의사항1건의사항1",
-    content: "건의사항1 내용",
-    writer: "작성자1",
-    email: "작성자1 이메일",
-    answerWriter: "답변자1",
+    category: "결제/쿠폰",
+    content: "한불부탁드립니다~",
+    email: "refund@refund.com",
+    id: "66b6e7ff306d7d1feeb94877",
+    title: "포인트가 충전이 안됐어요 환불 해주세요",
   });
+
+  const getNotifications = async () => {
+    try {
+      const response = await dispatch(getInquiryById(props.params.id));
+      console.log(response);
+      if (response) setSelectBoard(response.payload);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const submit = async () => {
     console.log(selectBoard);
-    // const formData = new FormData();
-    // formData.append("boardDto", JSON.stringify(selectBoard));
-    // if (selectedFile.length == 0) {
-    //   alert("파일을 선택해주세요.");
-    //   return 0;
-    // }
-    // Array.from(selectedFile).forEach((file: File) => {
-    //   formData.append("files", file);
-    // });
-    // try {
-    //   const response = await axios.post(
-    //     "http://localhost:8082/board/save",
-    //     formData,
-    //     {
-    //       headers: {
-    //         "Content-Type": "multipart/form-data",
-    //       },
-    //     }
-    //   );
-    //   if (response.status === 200) {
-    //     alert("파일이 성공적으로 등록되었습니다.");
-    //     router.push("/notification");
-    //   }
-    // } catch (error) {
-    //   console.log(error);
-    // }
+    try {
+      const response = await dispatch(sendInquiry());
+      console.log(response);
+      if (response) setSelectBoard(response.payload);
+    } catch (error) {
+      console.log(error);
+    }
   };
+
+  useEffect(() => {
+    getNotifications();
+  }, []);
+
   return (
     <>
       <>
@@ -80,7 +79,7 @@ const InquiryAnswerPage: NextPage = () => {
                 onChange={(event: any) =>
                   setSelectBoard({
                     ...selectBoard,
-                    title: event.target.value,
+                    email: event.target.value,
                   })
                 }
               />
