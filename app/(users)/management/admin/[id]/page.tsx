@@ -9,7 +9,7 @@ import { useDispatch } from "react-redux";
 const NorificationAddPage = (props: any) => {
   const router = useRouter();
   const dispatch = useDispatch();
-  const email = props.params.id;
+  const email = decodeURIComponent(props.params.id);
 
   const [selectedFile, setSelectedFile] = useState<File[]>([]);
   const [selectBoard, setSelectBoard] = useState({
@@ -24,7 +24,7 @@ const NorificationAddPage = (props: any) => {
     formData.append("boardDto", JSON.stringify(selectBoard));
 
     try {
-      await dispatch(sendMail()).then((res: any) => {
+      await dispatch(sendMail(selectBoard)).then((res: any) => {
         console.log(res);
       });
     } catch (error) {

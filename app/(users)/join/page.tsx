@@ -54,16 +54,16 @@ function Join() {
         >
           <p className=" text-[28px] font-medium align-middle">회원가입</p>
           <div>
-            <label
-              htmlFor="username"
+             <label
+              htmlFor="email"
               className="flex flex-row items-center justify-between w-[33vw]"
             >
-              <p className="text-[22px] font-medium">아이디</p>
+              <p className="text-[22px] font-medium">이메일</p>
               <input
                 type="text"
-                id="username"
-                placeholder="Username"
-                {...register("username")}
+                id="email"
+                placeholder="Email"
+                {...register("email")}
                 className="w-[22vw] h-[5vh] border border-[var(--color-Harbor-first)] px-[1.111vw] mb-[1.111vh] bg-white"
               />
             </label>
@@ -77,19 +77,6 @@ function Join() {
                 id="password"
                 placeholder="Password"
                 {...register("password")}
-                className="w-[22vw] h-[5vh] border border-[var(--color-Harbor-first)] px-[1.111vw] mb-[1.111vh] bg-white"
-              />
-            </label>
-            <label
-              htmlFor="email"
-              className="flex flex-row items-center justify-between w-[33vw]"
-            >
-              <p className="text-[22px] font-medium">이메일</p>
-              <input
-                type="text"
-                id="email"
-                placeholder="Email"
-                {...register("email")}
                 className="w-[22vw] h-[5vh] border border-[var(--color-Harbor-first)] px-[1.111vw] mb-[1.111vh] bg-white"
               />
             </label>
@@ -119,19 +106,18 @@ function Join() {
                 {...register("role")}
                 name="role"
               >
-                <option>담당분야를 선택하세요</option>
-                {options.map((option) => (
-                  <option key={option.value} value={option.value}>
-                    {option.label}
-                  </option>
-                ))}
+<option value="">--Please choose an option--</option>
+                <option value="HD">Human Resources</option>
+                <option value="R&D">Research Delevelop</option>
+                <option value="CS">Customer Service</option>
+                <option value="LD">Legal Department</option>
               </select>
             </label>
             <button
               type="submit"
               className="w-[33vw] h-[5vh] bg-white border border-[var(--color-Harbor-first)] hover:bg-[var(--color-Harbor-first)] hover:text-white  font-bold"
             >
-              Login
+              Join
             </button>
           </div>
           <div className="w-[22vw] flex flex-col p-[1.111vh]">
