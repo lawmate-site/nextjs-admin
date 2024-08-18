@@ -20,6 +20,7 @@ const options: ChartOptions = {
   allowHtml: true,
   showRowNumber: true,
 };
+
 const LawyerGraph = (props: any) => {
   const dispatch = useDispatch();
   const [totalLawyer, setTotalLawyer] = useState({
@@ -74,7 +75,7 @@ const LawyerGraph = (props: any) => {
         console.log(error);
       }
     };
-  }, [dispatch]);
+  }, []);
 
   return (
     <>

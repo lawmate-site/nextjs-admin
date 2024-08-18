@@ -28,16 +28,6 @@ const UserGraph = (props: any) => {
   const [month, setMonth] = useState({});
   const [day, setDay] = useState({});
 
-  const monthOptions = {
-    title: "월별 신규 유저 수",
-    hAxis: {
-      title: "월",
-    },
-    vAxis: {
-      title: "신규 유저 수",
-    },
-  };
-
   useEffect(() => {
     return () => {
       try {
@@ -106,7 +96,7 @@ const UserGraph = (props: any) => {
         console.log(error);
       }
     };
-  }, [dispatch]);
+  }, []);
 
   return (
     <>
